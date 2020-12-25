@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingConstraints" >
+
+
+
+
+    <Button
+        android:id="@+id/bt_HomePage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="首页"
+        android:textSize="30sp"
+
+
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/bt_Publish"
+
+        />
+
+    <Button
+        android:id="@+id/bt_Publish"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="发布"
+        android:textSize="30sp"
+
+
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/bt_HomePage"
+        app:layout_constraintRight_toLeftOf="@+id/bt_Information"
+        />
+
+    <Button
+        android:id="@+id/bt_Information"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="消息"
+        android:textSize="30sp"
+
+
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/bt_Publish"
+        app:layout_constraintRight_toLeftOf="@+id/bt_Mini"
+        />
+
+    <Button
+        android:id="@+id/bt_Mini"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="我的"
+        android:textSize="30sp"
+
+
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/bt_Information"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+
+
+
+
+
+
+
+    <ImageButton
+        android:id="@+id/ib_HeadPortrait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="60dp"
+        android:src="@drawable/head2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_UserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="用户名"
+        android:textSize="25dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/ib_HeadPortrait"
+        app:layout_constraintLeft_toLeftOf="@+id/ib_HeadPortrait"
+        />
+
+    <Button
+        android:id="@+id/bt_EditMaterials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:text="编辑资料"
+        android:textSize="20dp"
+
+        app:layout_constraintLeft_toRightOf="@+id/ib_HeadPortrait"
+        app:layout_constraintTop_toBottomOf="@+id/ib_HeadPortrait"
+        />
+
+    <Button
+        android:id="@+id/bt_release"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="动态"
+        android:textSize="25dp"
+        android:layout_marginTop="170dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_EditMaterials"
+        app:layout_constraintRight_toLeftOf="@+id/bt_answer"
+        />
+
+    <Button
+        android:id="@+id/bt_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="回答"
+        android:textSize="25dp"
+        android:layout_marginTop="170dp"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintLeft_toRightOf="@+id/bt_release"
+        app:layout_constraintTop_toBottomOf="@+id/bt_EditMaterials"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_release"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/bt_release"
+        app:layout_constraintBottom_toTopOf="@id/bt_HomePage"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

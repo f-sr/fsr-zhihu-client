@@ -44,15 +44,15 @@ public class MineActivity extends AppCompatActivity {
         //完成对contentList初始化，从数据库中传入数据
 
         for(int i=0;i<4;i++){
-            Content apple = new Content("震惊111",R.drawable.head,"张三","评论111111111111111111111111111111111111111111111111111111");
+            Content apple = new Content("震惊111",R.drawable.head,"张三","描述111111111111111111111111111111111111111111111111111111","10 赞同","20评论");
             contentList.add(apple);
-            Content banana = new Content("震惊222",R.drawable.head,"张式","评论2222222222222222222222222222222222222222222");
+            Content banana = new Content("震惊222",R.drawable.head2,"张式","评论2222222222222222222222222222222222222222222","10 赞同","20评论");
             contentList.add(banana);
-            Content orange = new Content("震惊333",R.drawable.head,"张会","评论33333333333333333333333333333333333333333333333333333333");
+            Content orange = new Content("震惊333",R.drawable.head2,"张会","评论33333333333333333333333333333333333333333333333333333333","10 赞同","20评论");
             contentList.add(orange);
-            Content strawberry = new Content("震惊444",R.drawable.head,"张得分","评论44444444444444444444444444444444444444444444444");
+            Content strawberry = new Content("震惊444",R.drawable.head,"张得分","评论44444444444444444444444444444444444444444444444","10 赞同","20评论");
             contentList.add(strawberry);
-            Content pig = new Content("震惊555",R.drawable.head,"张否","评论5555555555555555555555555555555555555555555555555555555555");
+            Content pig = new Content("震惊555",R.drawable.head,"张否","评论5555555555555555555555555555555555555555555555555555555555","10 赞同","20评论");
             contentList.add(pig);
         }
     }

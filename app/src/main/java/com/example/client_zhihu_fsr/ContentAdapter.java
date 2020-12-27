@@ -19,7 +19,9 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
         TextView contentTitle;
         ImageView contentHeadImage;
         TextView contentName;
-        TextView contentComment;
+        TextView contentDescribe;
+        TextView contentAgreeNumber;
+        TextView contentCommentNumber;
 
 
         public ViewHolder(View view){
@@ -27,7 +29,9 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
             contentTitle=(TextView)view.findViewById(R.id.tv_Title);
             contentHeadImage=(ImageView) view.findViewById(R.id.im_head);
             contentName=(TextView)view.findViewById(R.id.tv_name);
-            contentComment=(TextView)view.findViewById(R.id.tv_comment);
+            contentDescribe=(TextView)view.findViewById(R.id.tv_describe);
+            contentAgreeNumber=(TextView)view.findViewById(R.id.tv_agree);
+            contentCommentNumber=(TextView)view.findViewById(R.id.tv_comment);
         }
     }
 
@@ -48,9 +52,11 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Content content = mContentList.get(position);
         holder.contentTitle.setText(content.getTitle());
-        holder.contentHeadImage.setImageResource(content.getImageId());
+        holder.contentHeadImage.setImageResource(content.getHeadImageId());
         holder.contentName.setText(content.getName());
-        holder.contentComment.setText(content.getComment());
+        holder.contentDescribe.setText(content.getDescribe());
+        holder.contentAgreeNumber.setText(content.getAgreeNumber());
+        holder.contentCommentNumber.setText(content.getCommentNumber());
     }
 
     @Override

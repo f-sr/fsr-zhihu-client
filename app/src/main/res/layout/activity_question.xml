@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".QuestionActivity"
+    tools:ignore="MissingConstraints">
+
+
+    <TextView
+        android:id="@+id/tv_Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="标题类容"
+        android:textSize="25dp"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:minLines="2"
+        android:maxLines="4"
+        />
+
+    <Button
+        android:id="@+id/bt_inviteToAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="邀请回答"
+        android:textSize="15dp"
+
+        app:layout_constraintTop_toBottomOf="@+id/tv_Title"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="130dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        />
+
+    <Button
+        android:id="@+id/bt_writeAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="写回答"
+        android:textSize="15dp"
+
+        app:layout_constraintTop_toBottomOf="@+id/tv_Title"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="130dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <ImageButton
+        android:id="@+id/ib_head"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/bt_inviteToAnswer"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_UserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="用户名"
+        android:textSize="15dp"
+
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/bt_inviteToAnswer"
+        app:layout_constraintLeft_toRightOf="@+id/ib_head"
+        />
+
+    <Button
+        android:id="@+id/bt_attention"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="关注"
+        android:textSize="30dp"
+
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/bt_inviteToAnswer"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tv_describe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="10"
+        android:maxLines="20"
+        android:text="问题描述"
+
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@id/bt_attention"
+        />
+
+
+
+
+    <LinearLayout
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right">
+
+        <com.sackcentury.shinebuttonlib.ShineButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/bt_heart"
+            app:btn_color="@android:color/darker_gray"
+            app:btn_fill_color="#f26d7d"
+            app:siShape="@raw/heart"
+            android:elevation="10dp"
+            android:layout_gravity="center"
+            />
+
+        <com.sackcentury.shinebuttonlib.ShineButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_centerInParent="true"
+            android:id="@+id/bt_star"
+            app:btn_color="@android:color/darker_gray"
+            app:btn_fill_color="#996699"
+            app:enable_flashing="true"
+            app:shine_size="40dp"
+            app:siShape="@raw/star"
+            android:layout_gravity="center"
+            />
+
+        <Button
+            android:id="@+id/bt_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="评论"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

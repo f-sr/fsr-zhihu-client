@@ -2,6 +2,7 @@ package com.example.client_zhihu_fsr;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +37,6 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_publish);
         initView();
         initEvent();
-        Button button_checkPublish = (Button) findViewById(R.id.bt_checkPublish);
     }
 
 
@@ -128,8 +128,9 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
 
         Log.d("PublishActivity","jsonData is "+jsonData);
         Log.d("PublishActivity", "message is " + publishReturn_data.getMessage());
-        Log.d("PublishActivity", "status is " + publishReturn_data.getData().getTitle());
-        Log.d("PublishActivity", "token is " + publishReturn_data.getData().getQuestioner().getName());
+        Log.d("PublishActivity", "Title is " + publishReturn_data.getData().getTitle());
+        Log.d("PublishActivity", "name is " + publishReturn_data.getData().getQuestioner().getName());
+        Log.d("PublishActivity", "CreatedTime is " + publishReturn_data.getData().getCreatedAt());
 
         Handler(publishReturn_data);
     }
@@ -140,7 +141,12 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
             public void run() {
         if(publishReturn_data.getMessage().equals("success")) {
             Toast.makeText(getApplicationContext(), "发布成功", Toast.LENGTH_LONG).show();
-            finish();
+            Intent intent =new Intent(PublishActivity.this,HomeActivity.class);
+            setResult(RESULT_OK,intent);
+         //   finish();
+            Intent intent2 =new Intent(PublishActivity.this,HomeActivity.class);
+            startActivity(intent2);
+
                  }
             }
         });

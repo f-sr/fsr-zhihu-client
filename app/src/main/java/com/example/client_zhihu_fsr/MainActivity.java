@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //初始化控件方法
     private void initView() {
-        ResponseText = (TextView) findViewById(R.id.responseText);//测试
+//        ResponseText = (TextView) findViewById(R.id.responseText);//测试
         button_register = (Button) findViewById(R.id.bt_Register);
         button_login = (Button) findViewById(R.id.bt_Login);
         editText_PhoneNumber = (EditText) findViewById(R.id.et_PhoneNumber);
@@ -104,10 +104,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //发送请求
     private void sendRequestWithHttpURLConnection() {
         //输入的数据
-        String number = "123456@163.com";
-        String password = "123456";
-//        String number = editText_PhoneNumber.getText().toString().trim();
-//        String password = editText_Password.getText().toString().trim();
+//        String number = "123456@163.com";
+//        String password = "123456";
+        String number = editText_PhoneNumber.getText().toString().trim();
+        String password = editText_Password.getText().toString().trim();
         if (number.isEmpty()) {
             Toast.makeText(MainActivity.this, "账号不能为空！", Toast.LENGTH_LONG).show();
             return;
@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private  void Handler(LoginReturnData loginReturnData){
          //登录成功
         if(loginReturnData.getMessage().equals("success")){
+
             Intent intent_L =new Intent(MainActivity.this,HomeActivity.class);
             startActivity(intent_L);
             //这里是后续读入用户数据的逻辑
@@ -196,6 +197,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 else if(loginReturnData.getMessage().equals("crypto/bcrypt: hashedPassword is not the hash of the given password")){
                     Toast.makeText(getApplicationContext(), "密码错误，请重新输入！", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), loginReturnData.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

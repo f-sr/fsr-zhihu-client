@@ -74,15 +74,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void sendRequestWithHttpURLConnection(){
-          String phoneNumber = "13905690000";
-          String email = "1115244149@qq.com";
-          String name = "LiXing";
-          String password = "123456";
+//          String phoneNumber = "13905690000";
+//          String email = "1115244149@qq.com";
+//          String name = "LiXing";
+//          String password = "123456";
 
-//         String phoneNumber = editText_PhoneNumber.getText().toString().trim();
-//         String email = editText_Email.getText().toString().trim();
-//         String name = editText_userName.getText().toString().trim();
-//         String password = editText_password.getText().toString().trim();
+         String phoneNumber = editText_PhoneNumber.getText().toString().trim();
+         String email = editText_Email.getText().toString().trim();
+         String name = editText_userName.getText().toString().trim();
+         String password = editText_password.getText().toString().trim();
 
         if (phoneNumber.isEmpty()) {
             Toast.makeText(RegisterActivity.this, "手机号不能为空！", Toast.LENGTH_LONG).show();

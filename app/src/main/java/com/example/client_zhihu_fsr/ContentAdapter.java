@@ -1,10 +1,12 @@
 package com.example.client_zhihu_fsr;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +18,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
 
     //内部类，基本数据结构
     static class ViewHolder extends RecyclerView.ViewHolder{
+        View contentView;
         TextView contentTitle;
         ImageView contentHeadImage;
         TextView contentName;
@@ -26,6 +29,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
 
         public ViewHolder(View view){
             super(view);
+            contentView = view;
             contentTitle=(TextView)view.findViewById(R.id.tv_Title);
             contentHeadImage=(ImageView) view.findViewById(R.id.im_head);
             contentName=(TextView)view.findViewById(R.id.tv_name);
@@ -40,10 +44,33 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
         mContentList=ContentList;
     }
 
+
+
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType){
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_item,parent,false);
-        ViewHolder holder = new ViewHolder(view);
+        final ViewHolder holder = new ViewHolder(view);
+        holder.contentView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(v.getContext(),QuestionActivity.class);
+                v.getContext().startActivity(intent);
+
+
+                //这里写下点击item的后续逻辑
+                int position = holder.getAdapterPosition();
+                Content content = mContentList.get(position);
+                Toast.makeText(v.getContext(),"you clicked view "+content.getTitle(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
+
+
         return holder;
     }
 

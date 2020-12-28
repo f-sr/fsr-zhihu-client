@@ -12,7 +12,7 @@
         android:id="@+id/tv_PhoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="手机号"
+        android:text="邮箱"
         android:textSize="30sp"
 
         android:layout_marginTop="200dp"
@@ -24,7 +24,7 @@
         android:id="@+id/et_PhoneNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="请输入手机号"
+        android:hint="请输入邮箱地址"
         android:maxLines="1"
 
         android:layout_marginLeft="30dp"
@@ -101,13 +101,13 @@
         app:layout_constraintRight_toRightOf="parent"
         />
 
-    <TextView
-        android:id="@+id/responseText"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_Login"
-        />
+<!--    <TextView-->
+<!--        android:id="@+id/responseText"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/bt_Login"-->
+<!--        />-->
 
 
 

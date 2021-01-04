@@ -1,4 +1,4 @@
-package com.example.client_zhihu_fsr;
+package com.example.client_zhihu_fsr.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.client_zhihu_fsr.R;
+import com.example.client_zhihu_fsr.ReturnData.LoginReturnData;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bt_Register:
 //                Intent intent_R = new Intent(MainActivity.this, RegisterActivity.class);
 //                startActivity(intent_R);
-                Intent intent_regi = new Intent(MainActivity.this,RegisterActivity.class);
+                Intent intent_regi = new Intent(MainActivity.this, RegisterActivity.class);
                 startActivityForResult(intent_regi,1);
 
                 break;
@@ -104,10 +106,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //发送请求
     private void sendRequestWithHttpURLConnection() {
         //输入的数据
-//        String number = "123456@163.com";
-//        String password = "123456";
-        String number = editText_PhoneNumber.getText().toString().trim();
-        String password = editText_Password.getText().toString().trim();
+
+//        String number = editText_PhoneNumber.getText().toString().trim();
+//        String password = editText_Password.getText().toString().trim();
+          String number = "123456@163.com";
+          String password = "123456";
+
         if (number.isEmpty()) {
             Toast.makeText(MainActivity.this, "账号不能为空！", Toast.LENGTH_LONG).show();
             return;
@@ -166,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences sp  = getSharedPreferences("loginToken",0);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("token","Bearer "+loginReturnData.getToken());
+        editor.putInt("uid",loginReturnData.getUid());
         editor.commit();
         String token = sp.getString("token","");
         //
@@ -178,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          //登录成功
         if(loginReturnData.getMessage().equals("success")){
 
-            Intent intent_L =new Intent(MainActivity.this,HomeActivity.class);
+            Intent intent_L =new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent_L);
             //这里是后续读入用户数据的逻辑
         }

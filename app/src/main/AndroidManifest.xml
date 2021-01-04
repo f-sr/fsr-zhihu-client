@@ -11,12 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Client_zhihu_fsr">
-        <activity android:name=".QuestionActivity"></activity>
-        <activity android:name=".PublishActivity" />
-        <activity android:name=".MineActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activity.WriteAnswerActivity"></activity>
+        <activity android:name=".Activity.EditQuestionActivity" />
+        <activity android:name=".Activity.OthersQuestionActivity" />
+        <activity android:name=".Activity.MyQuestionActivity" />
+        <activity android:name=".Activity.PublishActivity" />
+        <activity android:name=".Activity.MineActivity" />
+        <activity android:name=".Activity.HomeActivity" />
+        <activity android:name=".Activity.RegisterActivity" />
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

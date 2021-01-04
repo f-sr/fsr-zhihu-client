@@ -1,9 +1,10 @@
-package com.example.client_zhihu_fsr;
+package com.example.client_zhihu_fsr.ReturnData;
 
 public class LoginReturnData {
     private String message;
     private int status;
     private String token;
+    private int uid;
 
     public String getMessage() {
         return message;
@@ -27,5 +28,9 @@ public class LoginReturnData {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public int getUid() {
+        return uid;
     }
 }

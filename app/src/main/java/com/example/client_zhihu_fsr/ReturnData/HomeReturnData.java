@@ -1,15 +1,15 @@
-package com.example.client_zhihu_fsr;
+package com.example.client_zhihu_fsr.ReturnData;
 
 import java.util.List;
 
-public class HomeReturn_data {
-    private List<Data_data> data;
+public class HomeReturnData {
+    private List<SingleQuestionData> data;
     private String message;
     private int status;
     private int total;
 
 
-    public List<Data_data> getList_data() {
+    public List<SingleQuestionData> getList_data() {
         return data;
     }
 

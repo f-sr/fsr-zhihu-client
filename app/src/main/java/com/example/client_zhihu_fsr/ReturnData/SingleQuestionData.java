@@ -1,7 +1,7 @@
 
-package com.example.client_zhihu_fsr;
+package com.example.client_zhihu_fsr.ReturnData;
 
-public class Data_data {
+public class SingleQuestionData {
 
         private int id;
         private String title;

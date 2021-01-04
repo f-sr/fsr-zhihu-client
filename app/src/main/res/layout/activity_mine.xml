@@ -16,45 +16,17 @@
         android:text="首页"
         android:textSize="30sp"
 
-
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/bt_Publish"
-
+        app:layout_constraintRight_toLeftOf="@+id/bt_Mine"
         />
 
-    <Button
-        android:id="@+id/bt_Publish"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="发布"
-        android:textSize="30sp"
 
-
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/bt_HomePage"
-        app:layout_constraintRight_toLeftOf="@+id/bt_Information"
-        />
 
     <Button
-        android:id="@+id/bt_Information"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="消息"
-        android:textSize="30sp"
-
-
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/bt_Publish"
-        app:layout_constraintRight_toLeftOf="@+id/bt_Mini"
-        />
-
-    <Button
-        android:id="@+id/bt_Mini"
+        android:id="@+id/bt_Mine"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -64,7 +36,7 @@
 
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/bt_Information"
+        app:layout_constraintLeft_toRightOf="@+id/bt_HomePage"
         app:layout_constraintRight_toRightOf="parent"
         />
 

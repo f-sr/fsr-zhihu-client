@@ -1,16 +1,19 @@
-package com.example.client_zhihu_fsr;
+package com.example.client_zhihu_fsr.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.client_zhihu_fsr.R;
+import com.example.client_zhihu_fsr.ReturnData.PublishReturn_data;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -141,11 +144,15 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
             public void run() {
         if(publishReturn_data.getMessage().equals("success")) {
             Toast.makeText(getApplicationContext(), "发布成功", Toast.LENGTH_LONG).show();
-            Intent intent =new Intent(PublishActivity.this,HomeActivity.class);
+            Intent intent =new Intent(PublishActivity.this, HomeActivity.class);
             setResult(RESULT_OK,intent);
-         //   finish();
-            Intent intent2 =new Intent(PublishActivity.this,HomeActivity.class);
-            startActivity(intent2);
+     //       finish();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startActivity(new Intent(PublishActivity.this,HomeActivity.class));
+                }
+            },1000);
 
                  }
             }

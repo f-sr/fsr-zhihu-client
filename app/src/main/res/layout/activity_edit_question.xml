@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.EditQuestionActivity"
+    tools:ignore="MissingConstraints"
+    >
+    <TextView
+        android:id="@+id/tvEditTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="编辑标题"
+        android:textSize="30dp"
+        android:textColor="@color/black"
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/etEditTitle"
+        />
+
+    <EditText
+        android:id="@+id/etEditTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvEditTitle"
+        />
+
+
+    <TextView
+        android:id="@+id/tvEditDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="编辑问题描述"
+        android:textSize="30dp"
+        android:textColor="@color/black"
+
+
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/etEditTitle"
+        />
+
+    <EditText
+        android:id="@+id/etEditDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="10"
+        android:gravity="top"
+        android:textColor="@color/black"
+
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvEditDesc"
+        />
+
+    <Button
+        android:id="@+id/btDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="删除"
+        android:textSize="30dp"
+
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/etEditDesc"
+        />
+
+    <Button
+        android:id="@+id/btSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="保存"
+        android:textSize="30dp"
+
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/etEditDesc"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

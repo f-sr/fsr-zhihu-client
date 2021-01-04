@@ -1,4 +1,4 @@
-package com.example.client_zhihu_fsr;
+package com.example.client_zhihu_fsr.ReturnData;
 
 public class RegisterReturn_data {
     private String message;

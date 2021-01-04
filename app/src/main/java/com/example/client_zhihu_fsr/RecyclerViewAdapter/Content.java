@@ -1,7 +1,9 @@
-package com.example.client_zhihu_fsr;
+package com.example.client_zhihu_fsr.RecyclerViewAdapter;
 
 public class Content {
 
+    private int uId;
+    private int questionId;
     private String title;
     private String describe;
     private String name;
@@ -10,13 +12,20 @@ public class Content {
     private String commentNumber;
 
 
-    public Content(String title,int headImageId,String name,String describe,String agreeNumber,String commentNumber){
+
+    public Content(int uId, int questionId, String title, int headImageId, String name, String describe, String agreeNumber, String commentNumber){
+        this.uId=uId;
         this.title=title;
         this.describe=describe;
         this.name = name;
         this.headImageId =headImageId;
         this.agreeNumber = agreeNumber;
         this.commentNumber = commentNumber;
+        this.questionId = questionId;
+    }
+
+    public int getuId() {
+        return uId;
     }
 
     public String getTitle(){
@@ -41,5 +50,9 @@ public class Content {
 
     public String getCommentNumber() {
         return commentNumber;
+    }
+
+    public int getQuestionId() {
+        return questionId;
     }
 }

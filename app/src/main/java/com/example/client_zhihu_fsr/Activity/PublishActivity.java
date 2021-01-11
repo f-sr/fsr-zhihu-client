@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.client_zhihu_fsr.R;
-import com.example.client_zhihu_fsr.ReturnData.PublishReturn_data;
+import com.example.client_zhihu_fsr.ReturnData.PublishReturnData;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -29,7 +29,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     private EditText editText_publishTitle;
     private EditText editText_publishDescribe;
     private Button button_checkPublish;
-    private PublishReturn_data publishReturn_data;
+    private PublishReturnData publishReturnData;
     private String originAddress = "http://42.192.88.213:8080/api/question/create";
 
 
@@ -58,7 +58,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bt_checkPublish :
+            case R.id.bt_checkPublish:
                 sendRequestWithHttpURLConnection();
                 break;
 
@@ -68,7 +68,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    private  void  sendRequestWithHttpURLConnection() {
+    private void sendRequestWithHttpURLConnection() {
 
         String title = editText_publishTitle.getText().toString().trim();
         String desc = editText_publishDescribe.getText().toString().trim();
@@ -97,15 +97,15 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
 
                 //POST
                 try {
-                    SharedPreferences sp = getSharedPreferences("loginToken",0);
-                    String token = sp.getString("token","");
+                    SharedPreferences sp = getSharedPreferences("loginToken", 0);
+                    String token = sp.getString("token", "");
 //                    Log.d("PublishActivity","token is "+token);
 
                     OkHttpClient client = new OkHttpClient();
                     RequestBody requestBody = RequestBody.create(JSON, String.valueOf(json));
                     Request request = new Request.Builder()
                             .url(originAddress)
-                            .addHeader("authorization",token)
+                            .addHeader("authorization", token)
                             .post(requestBody)
                             .build();
 
@@ -127,42 +127,31 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     private void parseJSONWithJSONObject(String jsonData){
 
         Gson gson = new Gson();
-        publishReturn_data = gson.fromJson(jsonData, PublishReturn_data.class);
+        publishReturnData = gson.fromJson(jsonData, PublishReturnData.class);
+        Log.d("PublishActivity","publishReturnData is "+publishReturnData.toString());
 
-        Log.d("PublishActivity","jsonData is "+jsonData);
-        Log.d("PublishActivity", "message is " + publishReturn_data.getMessage());
-        Log.d("PublishActivity", "Title is " + publishReturn_data.getData().getTitle());
-        Log.d("PublishActivity", "name is " + publishReturn_data.getData().getQuestioner().getName());
-        Log.d("PublishActivity", "CreatedTime is " + publishReturn_data.getData().getCreatedAt());
-
-        Handler(publishReturn_data);
-    }
-
-    private void Handler(PublishReturn_data publishReturn_data){
+        //切回UI线程做后处理
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-        if(publishReturn_data.getMessage().equals("success")) {
-            Toast.makeText(getApplicationContext(), "发布成功", Toast.LENGTH_LONG).show();
-            Intent intent =new Intent(PublishActivity.this, HomeActivity.class);
-            setResult(RESULT_OK,intent);
-     //       finish();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startActivity(new Intent(PublishActivity.this,HomeActivity.class));
-                }
-            },1000);
+                if (publishReturnData.getMessage().equals("success")) {
+                    Toast.makeText(getApplicationContext(), "发布成功", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(PublishActivity.this, HomeActivity.class);
+                    setResult(RESULT_OK, intent);
+                    //       finish();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(PublishActivity.this, HomeActivity.class));
+                        }
+                    }, 500);
 
-                 }
+                }else {
+                    Toast.makeText(getApplicationContext(), "发布失败，请检查网络错误", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
-
-
-
-
-
 
 
 

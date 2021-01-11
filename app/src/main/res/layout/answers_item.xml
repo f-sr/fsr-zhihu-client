@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingConstraints"
+    android:layout_marginTop="20dp"
+
+    >
+
+
+
+    <ImageView
+        android:id="@+id/imHead"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+
+
+        android:src="@drawable/head"
+
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+
+        app:layout_constraintRight_toLeftOf="@+id/tvName"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="李四"
+        android:textColor="@color/black"
+
+        android:layout_marginLeft="15dp"
+        app:layout_constraintLeft_toRightOf="@+id/imHead"
+        />
+
+
+
+    <TextView
+        android:id="@+id/tvAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="babbababbababbabababbab"
+        android:textColor="@color/black"
+
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/imHead"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

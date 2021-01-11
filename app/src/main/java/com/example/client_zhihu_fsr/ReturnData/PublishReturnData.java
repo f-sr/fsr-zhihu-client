@@ -1,6 +1,6 @@
 package com.example.client_zhihu_fsr.ReturnData;
 
-public class PublishReturn_data {
+public class PublishReturnData {
 
 
         private SingleQuestionData data;
@@ -17,6 +17,15 @@ public class PublishReturn_data {
         public int getStatus() {
             return status;
         }
+
+    @Override
+    public String toString() {
+        return "PublishReturn_data{" +
+                "data=" + data +
+                ", message='" + message + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }
 
 

@@ -14,8 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.client_zhihu_fsr.RecyclerViewAdapter.Content;
-import com.example.client_zhihu_fsr.RecyclerViewAdapter.ContentAdapter;
+import com.example.client_zhihu_fsr.RecyclerViewAdapter.QuestionItem;
+import com.example.client_zhihu_fsr.RecyclerViewAdapter.QuestionAdapter;
 import com.example.client_zhihu_fsr.R;
 import com.example.client_zhihu_fsr.ReturnData.SingleQuestionData;
 import com.example.client_zhihu_fsr.ReturnData.HomeReturnData;
@@ -31,27 +31,16 @@ import okhttp3.Response;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private List<Content> contentList = new ArrayList<>();
-    private  Button button_Mine;
-    private Button button_Publish;
-    private RecyclerView recyclerView;
-    private HomeReturnData homeReturn_data;
+    private List<QuestionItem> questionItemList = new ArrayList<>();
+    private  Button buttonMine;
+    private Button buttonPublish;
     private Button buttonHomePage;
+    private RecyclerView mQuestionRecyclerView;
+    private HomeReturnData homeReturnData;
     private String originAddress = "http://42.192.88.213:8080/api/questions/list?order=create_time";
-    private ContentAdapter adapter;
+    private QuestionAdapter mQuestionAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    protected void onActivityResult(int requestCode, int resultCode ,Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 1:
-                break;
-            case 2:
-                break;
-            default:
-                break;
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,20 +48,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_home);
         initView();
         initEvent();
-        sendRequestWithHttpURLConnection();
-        adapter = new ContentAdapter(contentList);
-        recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));//划线
+        sendRequestWithQuestionList();
+        mQuestionAdapter = new QuestionAdapter(questionItemList);
+        mQuestionRecyclerView.setAdapter(mQuestionAdapter);
+        mQuestionRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));//划线
 
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                contentList.clear();
-                sendRequestWithHttpURLConnection();
-                adapter = new ContentAdapter(contentList);
+                questionItemList.clear();
+                sendRequestWithQuestionList();
+                mQuestionAdapter = new QuestionAdapter(questionItemList);
 
-                adapter.notifyDataSetChanged();
+                mQuestionAdapter.notifyDataSetChanged();
 //                //模拟网络请求需要3000毫秒，请求完成，设置setRefreshing 为false
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -80,7 +69,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 }, 3000);
-
             }
         });
 
@@ -88,9 +76,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     //初始化控件方法
     private void initView() {
-        button_Mine = (Button)findViewById(R.id.bt_Mine);
-        button_Publish = (Button)findViewById(R.id.bt_Publish);
-        recyclerView = (RecyclerView) findViewById(R.id.rv_All);
+        buttonMine = (Button)findViewById(R.id.bt_Mine);
+        buttonPublish = (Button)findViewById(R.id.bt_Publish);
+        mQuestionRecyclerView = (RecyclerView) findViewById(R.id.rv_All);
         buttonHomePage = (Button)findViewById(R.id.bt_HomePage);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
     }
@@ -98,15 +86,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     //注册事件方法
     private void initEvent() {
-        button_Mine.setOnClickListener(this);
-        button_Publish.setOnClickListener(this);
+        buttonMine.setOnClickListener(this);
+        buttonPublish.setOnClickListener(this);
         buttonHomePage.setOnClickListener(this);
-
+        //recyclerView设置布局管理
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        mQuestionRecyclerView.setLayoutManager(layoutManager);
     }
-
-
 
 
 
@@ -117,17 +103,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 startActivityForResult(intentMine,2);
                 break;
 
-
             case R.id.bt_Publish :
                 Intent intentPublish = new Intent(HomeActivity.this, PublishActivity.class);
                 startActivityForResult(intentPublish,1);
                 break;
 
             case R.id.bt_HomePage :
-
                 break;
-
-
 
             default:
                 break;
@@ -138,7 +120,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    private void sendRequestWithHttpURLConnection(){
+    private void sendRequestWithQuestionList(){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -149,7 +131,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             .build();
                     Response response = client.newCall(request).execute();
                     String responseData = response.body().string();
-
+                    Log.d("HomeActivity","responseData is "+responseData);
                     parseJSONWithJSONObject(responseData);
                 }catch (Exception e) {
                     e.printStackTrace();
@@ -164,36 +146,25 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         Gson gson = new Gson();
         java.lang.reflect.Type type = new TypeToken<HomeReturnData>() {}.getType();
-        homeReturn_data = gson.fromJson(jsonData, type);
+        homeReturnData = gson.fromJson(jsonData, type);
+        Log.d("HomeActivity", "homeReturnData is " + homeReturnData.toString());
 
-        List<SingleQuestionData> list_questions = homeReturn_data.getList_data();//问题列表提取成功
-
-//        Log.d("HomeActivity","jsonData is "+jsonData);
-//        Log.d("HomeActivity", "message is " + homeReturn_data.getMessage());
-//
-//        Log.d("HomeActivity", "list_questions[1].Title =  " + list_questions.get(5).getTitle());
-//        Log.d("HomeActivity", "list_questions[1].userName=  " + list_questions.get(5).getQuestioner().getName());
-//        Log.d("HomeActivity", "list_questions[1].desc =  " + list_questions.get(5).getDesc());
-
-
-        Log.d("HomeActivity", "Total is " + homeReturn_data.getTotal());
-
-        for(int i=0;i<homeReturn_data.getTotal();i++){
-            Content question = new Content(list_questions.get(i).getQuestioner().getId() , list_questions.get(i).getId(),list_questions.get(i).getTitle(),R.drawable.head,list_questions.get(i).getQuestioner().getName(),list_questions.get(i).getDesc(),"10 赞同","20评论");
-            contentList.add(question);
+        List<SingleQuestionData> questionsList = homeReturnData.getData();//问题列表提取成功
+        for(int i = 0; i< homeReturnData.getTotal(); i++){
+            QuestionItem questionItem = new QuestionItem(questionsList.get(i).getQuestioner().getId() , questionsList.get(i).getId(),questionsList.get(i).getTitle(),R.drawable.head,questionsList.get(i).getQuestioner().getName(),questionsList.get(i).getDesc(),questionsList.get(i).getViewCount(),questionsList.get(i).getAnswersCount());
+            questionItemList.add(questionItem);
         }
 
        // Handler(homeReturn_data);
     }
 
-    private void Handler(HomeReturnData homeReturn_data){
+    private void Handler(HomeReturnData homeReturnData){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(homeReturn_data.getMessage().equals("success")) {
+                if(homeReturnData.getMessage().equals("success")) {
                     Toast.makeText(HomeActivity.this, "问题列表加载成功", Toast.LENGTH_LONG).show();
                 }
-
 
             }
         });
@@ -201,6 +172,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
  //    protected void onResume() {}
+
+
+    protected void onActivityResult(int requestCode, int resultCode ,Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1://publish
+                break;
+            case 2://mine
+                break;
+            default:
+                break;
+        }
+    }
+
+
 
 
 

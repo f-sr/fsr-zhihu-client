@@ -1,18 +1,17 @@
-
 package com.example.client_zhihu_fsr.ReturnData;
 
-public class SingleQuestionData {
+public class SingleAnswerData {
 
     private int id;
-    private String title;
-    private String desc;
-    private Questioner questioner;
+    private String content;
+    private String questionTitle;
+    private Answerer answerer;
+    private int supportersCount;
+    private int voted;
     private String createdAt;
     private String updatedAt;
-    private int answersCount;
-    private int viewCount;
 
-    public static class Questioner {
+    public static class Answerer {
         private int id;
         private String name;
         private String desc;
@@ -31,7 +30,7 @@ public class SingleQuestionData {
 
         @Override
         public String toString() {
-            return "Questioner{" +
+            return "Answerer{" +
                     "id=" + id +
                     ", name='" + name + '\'' +
                     ", desc='" + desc + '\'' +
@@ -43,24 +42,24 @@ public class SingleQuestionData {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getContent() {
+        return content;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getQuestionTitle() {
+        return questionTitle;
     }
 
-    public Questioner getQuestioner() {
-        return questioner;
+    public Answerer getAnswerer() {
+        return answerer;
     }
 
-    public int getAnswersCount() {
-        return answersCount;
+    public int getSupportersCount() {
+        return supportersCount;
     }
 
-    public int getViewCount() {
-        return viewCount;
+    public int getVoted() {
+        return voted;
     }
 
     public String getCreatedAt() {
@@ -74,15 +73,15 @@ public class SingleQuestionData {
 
     @Override
     public String toString() {
-        return "SingleQuestionData{" +
+        return "SingleAnswerData{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
-                ", desc='" + desc + '\'' +
-                ", questioner=" + questioner +
+                ", content='" + content + '\'' +
+                ", questionTitle='" + questionTitle + '\'' +
+                ", answerer=" + answerer +
+                ", supportersCount=" + supportersCount +
+                ", voted=" + voted +
                 ", createdAt='" + createdAt + '\'' +
                 ", updatedAt='" + updatedAt + '\'' +
-                ", answersCount=" + answersCount +
-                ", viewCount=" + viewCount +
                 '}';
     }
 }

@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Client_zhihu_fsr">
-        <activity android:name=".Activity.WriteAnswerActivity"></activity>
+        <activity android:name=".Activity.MyAnswerActivity"></activity>
+        <activity android:name=".Activity.AnswersListActivity" />
+        <activity android:name=".Activity.WriteAnswerActivity" />
         <activity android:name=".Activity.EditQuestionActivity" />
         <activity android:name=".Activity.OthersQuestionActivity" />
         <activity android:name=".Activity.MyQuestionActivity" />

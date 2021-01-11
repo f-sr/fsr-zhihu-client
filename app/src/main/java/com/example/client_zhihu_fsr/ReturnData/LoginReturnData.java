@@ -18,19 +18,17 @@ public class LoginReturnData {
         return token;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     public int getUid() {
         return uid;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginReturnData{" +
+                "message='" + message + '\'' +
+                ", status=" + status +
+                ", token='" + token + '\'' +
+                ", uid=" + uid +
+                '}';
     }
 }

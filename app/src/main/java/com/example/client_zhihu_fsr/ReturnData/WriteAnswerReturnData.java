@@ -1,22 +1,29 @@
 package com.example.client_zhihu_fsr.ReturnData;
 
-public class EditQuestionReturnData {
+public class WriteAnswerReturnData {
     private String message;
     private int status;
-
-    public int getStatus() {
-        return status;
-    }
+    private SingleAnswerData data;
 
     public String getMessage() {
         return message;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public SingleAnswerData getData() {
+        return data;
+    }
+
+
     @Override
     public String toString() {
-        return "EditQuestionReturnData{" +
+        return "WriteAnswerReturnData{" +
                 "message='" + message + '\'' +
                 ", status=" + status +
+                ", data=" + data +
                 '}';
     }
 }

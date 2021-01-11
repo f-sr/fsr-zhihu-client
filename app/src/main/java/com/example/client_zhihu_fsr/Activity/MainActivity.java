@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //初始化控件方法
     private void initView() {
-//        ResponseText = (TextView) findViewById(R.id.responseText);//测试
         button_register = (Button) findViewById(R.id.bt_Register);
         button_login = (Button) findViewById(R.id.bt_Login);
         editText_PhoneNumber = (EditText) findViewById(R.id.et_PhoneNumber);
@@ -62,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         checkBox_displayPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
                 if (isChecked) {
                     //如果选中，显示密码
                     editText_Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
@@ -88,14 +86,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_Login:
-                sendRequestWithHttpURLConnection();
+                sendRequestForLogin();
                 break;
             case R.id.bt_Register:
-//                Intent intent_R = new Intent(MainActivity.this, RegisterActivity.class);
-//                startActivity(intent_R);
-                Intent intent_regi = new Intent(MainActivity.this, RegisterActivity.class);
-                startActivityForResult(intent_regi,1);
-
+                Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;
@@ -103,14 +98,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    //发送请求
-    private void sendRequestWithHttpURLConnection() {
-        //输入的数据
-
+    private void sendRequestForLogin() {
 //        String number = editText_PhoneNumber.getText().toString().trim();
 //        String password = editText_Password.getText().toString().trim();
+
           String number = "123456@163.com";
           String password = "123456";
+//
+//        String number = "fsr@163.com";
+//        String password = "123456";
 
         if (number.isEmpty()) {
             Toast.makeText(MainActivity.this, "账号不能为空！", Toast.LENGTH_LONG).show();
@@ -120,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
+        //开启一个HTTP请求线程
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -157,42 +154,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //解析回传JSON数据
     private void parseJSONWithJSONObject(String jsonData) {
-
         Gson gson = new Gson();
         loginReturnData = gson.fromJson(jsonData, LoginReturnData.class);
+        Log.d("MainActivity", "loginReturnData is " + loginReturnData.toString());
 
-        Log.d("MainActivity", "message is " + loginReturnData.getMessage());
-        Log.d("MainActivity", "status is " + loginReturnData.getStatus());
-        Log.d("MainActivity", "token is " + loginReturnData.getToken());
-        //处理后续事件
-        Handler(loginReturnData);
+        //登录成功
+        if(loginReturnData.getMessage().equals("success")){
+            //把token和用户ID 存为全APP共享数据
+            SharedPreferences sp  = getSharedPreferences("loginToken",0);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("token","Bearer "+loginReturnData.getToken());
+            editor.putInt("uid",loginReturnData.getUid());
+            editor.commit();
+            String token = sp.getString("token","");
 
-        SharedPreferences sp  = getSharedPreferences("loginToken",0);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString("token","Bearer "+loginReturnData.getToken());
-        editor.putInt("uid",loginReturnData.getUid());
-        editor.commit();
-        String token = sp.getString("token","");
-        //
-        Log.d("MainActivity","token is "+token);
-
+            Intent intent =new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(intent);
+        } else {
+            //登录失败
+            loginError(loginReturnData);
+        }
     }
 
 
-    private  void Handler(LoginReturnData loginReturnData){
-         //登录成功
-        if(loginReturnData.getMessage().equals("success")){
-
-            Intent intent_L =new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(intent_L);
-            //这里是后续读入用户数据的逻辑
-        }
-        //登录失败
-        else {
-            loginError(loginReturnData);
-        }
-}
-
+    //登录失败处理
     private void loginError(LoginReturnData loginReturnData){
         runOnUiThread(new Runnable() {
             @Override
@@ -210,31 +195,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-
-
-
-
-//    private void showResponse(final String response){
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                ResponseText.setText(response);
-//            }
-//        });
-//    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode , int resultCode , Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch ((requestCode)) {
-            case 1:
-                if (resultCode == RESULT_OK) {
-                    String returnedData = data.getStringExtra("data_return");
-                    Toast.makeText(MainActivity.this, returnedData, Toast.LENGTH_SHORT).show();
-                }
-        }
-    }
 
 
 

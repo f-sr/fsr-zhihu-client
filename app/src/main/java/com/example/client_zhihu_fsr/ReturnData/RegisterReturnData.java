@@ -1,6 +1,6 @@
 package com.example.client_zhihu_fsr.ReturnData;
 
-public class RegisterReturn_data {
+public class RegisterReturnData {
     private String message;
     private int status;
 
@@ -13,15 +13,11 @@ public class RegisterReturn_data {
         return status;
     }
 
-
-
-    public void setMessage(String message) {
-        this.message = message;
+    @Override
+    public String toString() {
+        return "RegisterReturn_data{" +
+                "message='" + message + '\'' +
+                ", status=" + status +
+                '}';
     }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-
 }

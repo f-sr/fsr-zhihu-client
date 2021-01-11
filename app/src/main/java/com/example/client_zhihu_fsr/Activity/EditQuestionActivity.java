@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.example.client_zhihu_fsr.R;
 import com.example.client_zhihu_fsr.ReturnData.EditQuestionReturnData;
-import com.example.client_zhihu_fsr.ReturnData.PublishReturn_data;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -51,10 +50,9 @@ public class EditQuestionActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_question);
-
         initView();
         initEvent();
-        initNewAddress();
+        initDataIn();
 
     }
 
@@ -92,7 +90,8 @@ public class EditQuestionActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-    private void initNewAddress(){
+    //这里不仅包括网络地址的初始化，还包括传进title、desc
+    private void initDataIn(){
         Intent intent = getIntent();
         questionId = intent.getIntExtra("extraQuestionId", 1);
         title = intent.getStringExtra("extraTitle");
@@ -210,7 +209,6 @@ public class EditQuestionActivity extends AppCompatActivity implements View.OnCl
                             startActivity(new Intent(EditQuestionActivity.this,HomeActivity.class));
                         }
                     },100);
-
 
 
                 }

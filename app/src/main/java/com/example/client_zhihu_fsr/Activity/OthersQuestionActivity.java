@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.client_zhihu_fsr.R;
-import com.example.client_zhihu_fsr.ReturnData.PublishReturn_data;
+import com.example.client_zhihu_fsr.ReturnData.PublishReturnData;
 import com.google.gson.Gson;
 import com.sackcentury.shinebuttonlib.ShineButton;
 
@@ -35,15 +34,16 @@ public class OthersQuestionActivity extends AppCompatActivity implements View.On
     private Button buttonComment;
     private String originAddress = "http://42.192.88.213:8080/api/question/";
     private int questionId;
-    private PublishReturn_data publishReturn_data;//这个和发布问题后获取的数据一样，所以不再重复写
+    private String originAddressNew;
+    private PublishReturnData publishReturnData;//这个和发布问题后获取的数据一样，所以不再重复写
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_others_question);
-
         initView();
         initEvent();
+        initDataIn();
         sendRequestWithHttpURLConnection();
     }
 
@@ -54,7 +54,7 @@ public class OthersQuestionActivity extends AppCompatActivity implements View.On
     //初始化控件方法
     private void initView() {
         textViewTitle = (TextView) findViewById(R.id.tv_Title);
-        textViewAgree = (TextView) findViewById(R.id.tv_agree);
+        textViewAgree = (TextView) findViewById(R.id.tvViews);
         textViewStar = (TextView) findViewById(R.id.tv_star);
         textViewUserName = (TextView) findViewById(R.id.tv_UserName);
         textViewDescribe = (TextView) findViewById(R.id.tv_describe);
@@ -74,10 +74,17 @@ public class OthersQuestionActivity extends AppCompatActivity implements View.On
         buttonStar.setOnClickListener(this);
         buttonHowManyAnswer.setOnClickListener(this);
         buttonComment.setOnClickListener(this);
+    }
 
+
+    //初始化传入该活动的数据
+    private void initDataIn() {
+        //传入问题的ID
         Intent intent = getIntent();
         questionId = intent.getIntExtra("extra_QuestionId",1);
-        Log.d("QuestionActivity","questionId is "+questionId);
+        StringBuffer Address = new StringBuffer(originAddress);
+        Address.append(questionId);
+        originAddressNew = new String(Address);
     }
 
 
@@ -90,20 +97,23 @@ public class OthersQuestionActivity extends AppCompatActivity implements View.On
                 break;
 
             case R.id.bt_WriterAnswer:
-
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        startActivity(new Intent(OthersQuestionActivity.this,WriteAnswerActivity.class));
-                    }
-                },10);
-
-                break;
+                //
+               Intent intent = new Intent(OthersQuestionActivity.this,WriteAnswerActivity.class);
+               intent.putExtra("extraQuestionId",questionId);
+               intent.putExtra("extraTitle",publishReturnData.getData().getTitle());
+               startActivity(intent);
+               break;
 
             case R.id.bt_comment :
                 break;
 
             case R.id.bt_HowManyAnswer:
+                Intent intent2 = new Intent(OthersQuestionActivity.this,AnswersListActivity.class);
+                intent2.putExtra("extraQuestionId",questionId);
+                intent2.putExtra("extraTitle",publishReturnData.getData().getTitle());
+                intent2.putExtra("extraAnswersCount",publishReturnData.getData().getAnswersCount());
+                intent2.putExtra("extraViewCount",publishReturnData.getData().getViewCount());
+                startActivity(intent2);
                 break;
 
             default:
@@ -112,17 +122,11 @@ public class OthersQuestionActivity extends AppCompatActivity implements View.On
     }
 
 
-
-
-
     private void  sendRequestWithHttpURLConnection(){
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    StringBuffer Address = new StringBuffer(originAddress);
-                    Address.append(questionId);
-                    String originAddressNew = new String(Address);
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder()
                             .url(originAddressNew)
@@ -142,25 +146,21 @@ public class OthersQuestionActivity extends AppCompatActivity implements View.On
 
     private void parseJSONWithJSONObject(String jsonData){
         Gson gson = new Gson();
-        publishReturn_data = gson.fromJson(jsonData, PublishReturn_data.class);
-        Log.d("MyQuestionActivity","Title is "+ publishReturn_data.getData().getTitle());
-        Handler();
-    }
+        publishReturnData = gson.fromJson(jsonData, PublishReturnData.class);
+        Log.d("MyQuestionActivity","publishReturnData is "+ publishReturnData.toString());
 
-    private void Handler(){
+
+        //请求数据完毕，回UI线程
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                textViewTitle.setText(publishReturn_data.getData().getTitle());
-                textViewDescribe.setText(publishReturn_data.getData().getDesc());
-                textViewUserName.setText(publishReturn_data.getData().getQuestioner().getName());
+                textViewTitle.setText(publishReturnData.getData().getTitle());
+                textViewDescribe.setText(publishReturnData.getData().getDesc());
+                textViewUserName.setText(publishReturnData.getData().getQuestioner().getName());
+                buttonHowManyAnswer.setText(publishReturnData.getData().getAnswersCount()+"人回答了这个问题");
             }
         });
     }
-
-
-
-
 
 
 

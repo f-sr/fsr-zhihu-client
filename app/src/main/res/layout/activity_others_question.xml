@@ -24,7 +24,7 @@
         android:id="@+id/bt_HowManyAnswer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="有XXX人回答了这个问题"
+        android:text="XXX人回答了这个问题"
         android:textSize="20dp"
         android:gravity="left"
 
@@ -88,10 +88,12 @@
         android:text="问题描述"
         android:textSize="25dp"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/bt_comment"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linearLayoutUser"
         app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="0dp" />
+
+
 
     <com.sackcentury.shinebuttonlib.ShineButton
         android:id="@+id/bt_heart"
@@ -103,12 +105,12 @@
         app:btn_fill_color="#f26d7d"
         app:siShape="@raw/heart"
         android:elevation="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_agree"
+        app:layout_constraintBottom_toTopOf="@+id/tvViews"
         app:layout_constraintRight_toLeftOf="@+id/bt_comment"
         android:layout_marginRight="50dp"
         />
     <TextView
-        android:id="@+id/tv_agree"
+        android:id="@+id/tvViews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="100"
@@ -160,6 +162,9 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
+
+
+
 
 
 

@@ -2,15 +2,13 @@ package com.example.client_zhihu_fsr.ReturnData;
 
 import java.util.List;
 
-public class HomeReturnData {
-    private List<SingleQuestionData> data;
+public class AnswersListReturnData {
+    private List<SingleAnswerData> data;
     private String message;
     private int status;
     private int total;
 
-
-
-    public List<SingleQuestionData> getData() {
+    public List<SingleAnswerData> getData() {
         return data;
     }
 
@@ -28,7 +26,7 @@ public class HomeReturnData {
 
     @Override
     public String toString() {
-        return "HomeReturnData{" +
+        return "AnswersListReturnData{" +
                 "data=" + data +
                 ", message='" + message + '\'' +
                 ", status=" + status +

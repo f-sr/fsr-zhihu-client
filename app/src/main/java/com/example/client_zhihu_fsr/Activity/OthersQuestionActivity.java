@@ -22,16 +22,16 @@ import okhttp3.Response;
 public class OthersQuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView textViewTitle;
-    private TextView textViewAgree;
-    private TextView textViewStar;
+
+
     private TextView textViewUserName;
     private TextView textViewDescribe;
     private ImageButton imageButtonHead;
     private Button buttonWriteAnswer;
-    private ShineButton buttonHeart;
-    private ShineButton buttonStar;
+
+
     private Button buttonHowManyAnswer;
-    private Button buttonComment;
+
     private String originAddress = "http://42.192.88.213:8080/api/question/";
     private int questionId;
     private String originAddressNew;
@@ -54,26 +54,22 @@ public class OthersQuestionActivity extends AppCompatActivity implements View.On
     //初始化控件方法
     private void initView() {
         textViewTitle = (TextView) findViewById(R.id.tv_Title);
-        textViewAgree = (TextView) findViewById(R.id.tvViews);
-        textViewStar = (TextView) findViewById(R.id.tv_star);
+
         textViewUserName = (TextView) findViewById(R.id.tv_UserName);
         textViewDescribe = (TextView) findViewById(R.id.tv_describe);
         imageButtonHead = (ImageButton) findViewById(R.id.ib_head);
         buttonWriteAnswer = (Button) findViewById(R.id.bt_WriterAnswer);
-        buttonHeart = (ShineButton) findViewById(R.id.bt_heart);
-        buttonStar = (ShineButton) findViewById(R.id.bt_star);
+
         buttonHowManyAnswer = (Button) findViewById(R.id.bt_HowManyAnswer);
-        buttonComment = (Button) findViewById(R.id.bt_comment);
+
     }
 
 
     //注册事件方法
     private void initEvent() {
         buttonWriteAnswer.setOnClickListener(this);
-        buttonHeart.setOnClickListener(this);
-        buttonStar.setOnClickListener(this);
+
         buttonHowManyAnswer.setOnClickListener(this);
-        buttonComment.setOnClickListener(this);
     }
 
 
@@ -90,11 +86,7 @@ public class OthersQuestionActivity extends AppCompatActivity implements View.On
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bt_heart :
-                break;
 
-            case R.id.bt_star :
-                break;
 
             case R.id.bt_WriterAnswer:
                 //
@@ -104,8 +96,7 @@ public class OthersQuestionActivity extends AppCompatActivity implements View.On
                startActivity(intent);
                break;
 
-            case R.id.bt_comment :
-                break;
+
 
             case R.id.bt_HowManyAnswer:
                 Intent intent2 = new Intent(OthersQuestionActivity.this,AnswersListActivity.class);

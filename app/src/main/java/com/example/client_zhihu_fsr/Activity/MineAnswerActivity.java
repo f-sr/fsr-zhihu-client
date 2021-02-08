@@ -14,11 +14,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.client_zhihu_fsr.RecyclerViewAdapter.AnswerAdapter;
+import com.example.client_zhihu_fsr.RecyclerViewAdapter.AnswerItem;
 import com.example.client_zhihu_fsr.RecyclerViewAdapter.QuestionItem;
 import com.example.client_zhihu_fsr.RecyclerViewAdapter.QuestionAdapter;
 import com.example.client_zhihu_fsr.R;
+import com.example.client_zhihu_fsr.ReturnData.AnswersListReturnData;
 import com.example.client_zhihu_fsr.ReturnData.HomeReturnData;
+import com.example.client_zhihu_fsr.ReturnData.SingleAnswerData;
 import com.example.client_zhihu_fsr.ReturnData.SingleQuestionData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,9 +36,14 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MineActivity extends AppCompatActivity implements View.OnClickListener{
+public class MineAnswerActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private List<QuestionItem> questionItemList = new ArrayList<>();
+    private List<AnswerItem> answerItemList = new ArrayList<>();
+    private AnswersListReturnData answersListReturnData;
+    private RecyclerView myAnswerRecyclerView;
+    private AnswerAdapter myAnswerAdapter;
+
+
     private Button button_homePage;
     private Button buttonQuestion;
     private Button buttonAnswer;
@@ -41,12 +51,13 @@ public class MineActivity extends AppCompatActivity implements View.OnClickListe
     private Button button_editMaterials;
     private TextView textView_userName;
 
-    private HomeReturnData myQuestionReturnData;
-    private RecyclerView myQuestionRecyclerView;
-    private QuestionAdapter myQuestionAdapter;
+
+
+
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private String token;
-    private String originAddress = "http://42.192.88.213:8080/api/questions/list?userID=";
+    private String originAddress = "http://42.192.88.213:8080/api/answers/listByUser?userID=";
     private String NewAddress ;
 
     @Override
@@ -55,20 +66,20 @@ public class MineActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_mine);
         initView();
         initEvent();
-        sendRequestWithQuestionList();
-        myQuestionAdapter = new QuestionAdapter(questionItemList);
-        myQuestionRecyclerView.setAdapter(myQuestionAdapter);
-        myQuestionRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));//划线
+        sendRequestWithAnswerList();
+        myAnswerAdapter = new AnswerAdapter(answerItemList);
+        myAnswerRecyclerView.setAdapter(myAnswerAdapter);
+        myAnswerRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));//划线
 
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
-                sendRequestWithQuestionList();
+                sendRequestWithAnswerList();
                 //  mQuestionAdapter = new QuestionAdapter(questionItemList);
 
-                myQuestionAdapter.notifyDataSetChanged();
+                myAnswerAdapter.notifyDataSetChanged();
 //                //模拟网络请求需要3000毫秒，请求完成，设置setRefreshing 为false
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -91,7 +102,7 @@ public class MineActivity extends AppCompatActivity implements View.OnClickListe
         buttonAgree = (Button) findViewById(R.id.btAgree);
         button_editMaterials = (Button) findViewById(R.id.bt_EditMaterials);
         textView_userName = (TextView) findViewById(R.id.tv_UserName);
-        myQuestionRecyclerView = (RecyclerView) findViewById(R.id.rvMyQuestion);
+        myAnswerRecyclerView = (RecyclerView) findViewById(R.id.rvMyQuestion);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
     }
 
@@ -106,7 +117,7 @@ public class MineActivity extends AppCompatActivity implements View.OnClickListe
 
         //recyclerView设置布局管理
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        myQuestionRecyclerView.setLayoutManager(layoutManager);
+        myAnswerRecyclerView.setLayoutManager(layoutManager);
 
         //token
         SharedPreferences sp = getSharedPreferences("loginToken",0);
@@ -126,19 +137,18 @@ public class MineActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_HomePage:
-                Intent intentHome = new Intent(MineActivity.this, HomeActivity.class);
+                Intent intentHome = new Intent(MineAnswerActivity.this, HomeActivity.class);
                 setResult(RESULT_OK, intentHome);
-               // finish();
-                startActivity(intentHome);
 
+                startActivity(intentHome);
                 break;
 
             case R.id.btQuestion:
+                Intent intentQuestion = new Intent(MineAnswerActivity.this, MineActivity.class);
+                startActivity(intentQuestion);
                 break;
 
             case R.id.btAnswer:
-                Intent intentAnswer = new Intent(MineActivity.this, MineAnswerActivity.class);
-                startActivity(intentAnswer);
 
                 break;
 
@@ -152,7 +162,7 @@ public class MineActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void sendRequestWithQuestionList(){
+    private void sendRequestWithAnswerList(){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -178,19 +188,28 @@ public class MineActivity extends AppCompatActivity implements View.OnClickListe
     private void parseJSONWithJSONObject(String jsonData){
 
         Gson gson = new Gson();
-        Type type = new TypeToken<HomeReturnData>() {}.getType();
-        myQuestionReturnData = gson.fromJson(jsonData, type);
-        Log.d("MineActivity", "homeReturnData is " + myQuestionReturnData.toString());
+        Type type = new TypeToken<AnswersListReturnData>() {}.getType();
+        answersListReturnData = gson.fromJson(jsonData, type);
+        Log.d("AnswersListActivity", "answersListReturnData is " + answersListReturnData.toString());
+        List<SingleAnswerData> answersList = answersListReturnData.getData();//问题列表提取成功
 
-        List<SingleQuestionData> questionsList = myQuestionReturnData.getData();//问题列表提取成功
+        answerItemList.clear();
+        for(int i = 0; i< answersListReturnData.getTotal(); i++){
 
-        questionItemList.clear();
-        for(int i = 0; i< myQuestionReturnData.getTotal(); i++){
-            QuestionItem questionItem = new QuestionItem(questionsList.get(i).getQuestioner().getId() , questionsList.get(i).getId(),questionsList.get(i).getTitle(),R.drawable.head,questionsList.get(i).getQuestioner().getName(),questionsList.get(i).getDesc(),questionsList.get(i).getViewCount(),questionsList.get(i).getAnswersCount());
-            questionItemList.add(questionItem);
+            AnswerItem answerItem = new AnswerItem(answersList.get(i).getId(), answersList.get(i).getAnswerer().getId(),answersList.get(i).getAnswerer().getName(),R.drawable.head,answersList.get(i).getContent(),answersList.get(i).getSupportersCount(),answersList.get(i).getVoted());//content为后端的回答，等于answer
+            answerItemList.add(answerItem);
+            Log.d("AnswersListActivity"," answerItemList.toString() "+answerItem.getAnswer());
         }
 
-        // Handler(homeReturn_data);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(answersListReturnData.getMessage().equals("success")) {
+                    Toast.makeText(MineAnswerActivity.this, "我的回答列表加载成功", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
     }
 
 

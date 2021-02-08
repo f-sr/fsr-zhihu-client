@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editor.putString("token","Bearer "+loginReturnData.getToken());
             editor.putInt("uid",loginReturnData.getUid());
             editor.commit();
-            String token = sp.getString("token","");
+       //     String token = sp.getString("token","");
 
             Intent intent =new Intent(MainActivity.this, HomeActivity.class);
             startActivity(intent);

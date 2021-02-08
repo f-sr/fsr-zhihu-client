@@ -29,6 +29,8 @@
         android:text="XXX人回答了这个问题"
         android:textSize="20dp"
         android:gravity="left"
+        android:textColor="@color/gray"
+        style="?android:attr/borderlessButtonStyle"
 
 
         android:layout_marginTop="5dp"

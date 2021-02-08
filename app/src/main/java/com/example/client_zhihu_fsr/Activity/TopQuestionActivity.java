@@ -1,44 +1,44 @@
 package com.example.client_zhihu_fsr.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+        import androidx.appcompat.app.AppCompatActivity;
+        import androidx.recyclerview.widget.DividerItemDecoration;
+        import androidx.recyclerview.widget.LinearLayoutManager;
+        import androidx.recyclerview.widget.RecyclerView;
+        import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.os.Handler;
+        import android.util.Log;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.Toast;
 
-import com.example.client_zhihu_fsr.RecyclerViewAdapter.QuestionItem;
-import com.example.client_zhihu_fsr.RecyclerViewAdapter.QuestionAdapter;
-import com.example.client_zhihu_fsr.R;
-import com.example.client_zhihu_fsr.ReturnData.SingleQuestionData;
-import com.example.client_zhihu_fsr.ReturnData.HomeReturnData;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+        import com.example.client_zhihu_fsr.RecyclerViewAdapter.QuestionItem;
+        import com.example.client_zhihu_fsr.RecyclerViewAdapter.QuestionAdapter;
+        import com.example.client_zhihu_fsr.R;
+        import com.example.client_zhihu_fsr.ReturnData.SingleQuestionData;
+        import com.example.client_zhihu_fsr.ReturnData.HomeReturnData;
+        import com.google.gson.Gson;
+        import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
-import java.util.List;
+        import java.util.ArrayList;
+        import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+        import okhttp3.OkHttpClient;
+        import okhttp3.Request;
+        import okhttp3.Response;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class TopQuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
     private List<QuestionItem> questionItemList = new ArrayList<>();
-    private  Button buttonMine;
+    private Button buttonMine;
     private Button buttonPublish;
     private Button buttonHomePage;
-    private Button buttonHotQuestion;
+    private Button buttonRecommendation;
     private RecyclerView mQuestionRecyclerView;
     private HomeReturnData homeReturnData;
-    private String originAddress = "http://42.192.88.213:8080/api/questions/list?order=create_time";
+    private String originAddress = "http://42.192.88.213:8080/api/questions/list?order=view_count";
     private QuestionAdapter mQuestionAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -59,6 +59,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onRefresh() {
                 questionItemList.clear();
+
                 sendRequestWithQuestionList();
               //  mQuestionAdapter = new QuestionAdapter(questionItemList);
 
@@ -69,7 +70,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                }, 1000);
+                }, 3000);
             }
         });
 
@@ -81,7 +82,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         buttonPublish = (Button)findViewById(R.id.bt_Publish);
         mQuestionRecyclerView = (RecyclerView) findViewById(R.id.rv_All);
         buttonHomePage = (Button)findViewById(R.id.bt_HomePage);
-        buttonHotQuestion = (Button)findViewById(R.id.btHot);
+        buttonRecommendation = (Button)findViewById(R.id.bt_Recommendation);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
     }
 
@@ -91,7 +92,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         buttonMine.setOnClickListener(this);
         buttonPublish.setOnClickListener(this);
         buttonHomePage.setOnClickListener(this);
-        buttonHotQuestion.setOnClickListener(this);
+        buttonRecommendation.setOnClickListener(this);
         //recyclerView设置布局管理
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mQuestionRecyclerView.setLayoutManager(layoutManager);
@@ -102,21 +103,24 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_Mine :
-                Intent intentMine =new Intent(HomeActivity.this, MineActivity.class);
+                Intent intentMine =new Intent(TopQuestionActivity.this, MineActivity.class);
                 startActivityForResult(intentMine,2);
                 break;
 
             case R.id.bt_Publish :
-                Intent intentPublish = new Intent(HomeActivity.this, PublishActivity.class);
+                Intent intentPublish = new Intent(TopQuestionActivity.this, PublishActivity.class);
                 startActivityForResult(intentPublish,1);
                 break;
 
             case R.id.bt_HomePage :
                 break;
 
-            case R.id.btHot:
-                Intent intent = new Intent(HomeActivity.this,TopQuestionActivity.class);
+
+            case R.id.bt_Recommendation:
+                Intent intent = new Intent(TopQuestionActivity.this,HomeActivity.class);
                 startActivity(intent);
+
+                break;
 
             default:
                 break;
@@ -138,7 +142,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             .build();
                     Response response = client.newCall(request).execute();
                     String responseData = response.body().string();
-                    Log.d("HomeActivity","responseData is "+responseData);
+                    Log.d("TopQuestionActivity","responseData is "+responseData);
                     parseJSONWithJSONObject(responseData);
                 }catch (Exception e) {
                     e.printStackTrace();
@@ -154,10 +158,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Gson gson = new Gson();
         java.lang.reflect.Type type = new TypeToken<HomeReturnData>() {}.getType();
         homeReturnData = gson.fromJson(jsonData, type);
-        Log.d("HomeActivity", "homeReturnData is " + homeReturnData.toString());
+        Log.d("TopQuestionActivity", "homeReturnData is " + homeReturnData.toString());
 
         List<SingleQuestionData> questionsList = homeReturnData.getData();//问题列表提取成功
-
 
         for(int i = 0; i< homeReturnData.getTotal(); i++){
             QuestionItem questionItem = new QuestionItem(questionsList.get(i).getQuestioner().getId() , questionsList.get(i).getId(),questionsList.get(i).getTitle(),R.drawable.head,questionsList.get(i).getQuestioner().getName(),questionsList.get(i).getDesc(),questionsList.get(i).getViewCount(),questionsList.get(i).getAnswersCount());
@@ -172,7 +175,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 if(homeReturnData.getMessage().equals("success")) {
-                    Toast.makeText(HomeActivity.this, "问题列表加载成功", Toast.LENGTH_LONG).show();
+                    Toast.makeText(TopQuestionActivity.this, "我的问题列表加载成功", Toast.LENGTH_LONG).show();
                 }
 
             }

@@ -70,6 +70,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
 
                 SharedPreferences sp = v.getContext().getSharedPreferences("loginToken",0);
                 int uId = sp.getInt("uid",0);
+                Log.d("ContentAdapter","uid/quesUid "+ uId+"/"+questionItem.getuId());
 
                 if(uId== questionItem.getuId()){
                     //表示点进的是自己发布的问题
@@ -78,7 +79,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
                     Intent intent =new Intent(v.getContext(), MyQuestionActivity.class);
                     intent.putExtra("extra_QuestionId",questionId);
                     v.getContext().startActivity(intent);
-                    //Toast.makeText(v.getContext(),"you clicked your question ",Toast.LENGTH_SHORT).show();//测试用，提示
+                    Toast.makeText(v.getContext(),"you clicked your question ",Toast.LENGTH_SHORT).show();//测试用，提示
 
                 }else{//点进了别人发布的问题
                     Log.d("ContentAdapter","questionId is "+ questionItem.getQuestionId());

@@ -43,14 +43,21 @@
 
     <TextView
         android:id="@+id/tvAnswer"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:text="babbababbababbabababbab"
+        android:text="babbababbababbabababbabeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
         android:textColor="@color/black"
+        android:minLines="2"
+        android:maxLines="2"
 
         android:layout_marginTop="5dp"
+        android:layout_marginRight="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imHead"
+        />
+
+
         />
 
 

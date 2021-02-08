@@ -4,11 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,20 +32,26 @@ import okhttp3.Response;
 public class AnswersListActivity extends AppCompatActivity {
 
     private List<AnswerItem> answerItemList = new ArrayList<>();
+    private AnswersListReturnData answersListReturnData;
+    private RecyclerView mAnswerRecyclerView;
+    private AnswerAdapter mAnswerAdapter;
+
+
     private TextView textViewTitle;
     private TextView textViewViews;
     private TextView textViewAnswers;
-    private RecyclerView mAnswerRecyclerView;
+
     private String originAddress = "http://42.192.88.213:8080/api/answers/listByQuestion?questionID=";
     private String timeOrderAddress = "&order=create_time";
     private String supportersOrderAddress = "&order=create_time";
     private String NewAddress;//最终的目标地址
-    private AnswersListReturnData answersListReturnData;
-    private AnswerAdapter mAnswerAdapter;
+
+
     private int questionId;
     private String questionTitle;
     private int answersCount;
     private int viewCount;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +60,32 @@ public class AnswersListActivity extends AppCompatActivity {
         initView();
         initEvent();
         initDataIn();
-        sendRequestWithQuestionList();
+        sendRequestWithAnswerList();
 
         mAnswerAdapter = new AnswerAdapter(answerItemList);
         mAnswerRecyclerView.setAdapter(mAnswerAdapter);
         mAnswerRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));//划线
+
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                sendRequestWithAnswerList();
+
+                //                //模拟网络请求需要3000毫秒，请求完成，设置setRefreshing 为false
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+
+                mAnswerAdapter.notifyDataSetChanged();
+
+            }
+        });
+
     }
 
 
@@ -67,6 +95,7 @@ public class AnswersListActivity extends AppCompatActivity {
         textViewViews = (TextView) findViewById(R.id.tvViews);
         textViewAnswers = (TextView) findViewById(R.id.tvAnswers);
         mAnswerRecyclerView = (RecyclerView) findViewById(R.id.rvAnswersList);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
     }
 
 
@@ -98,7 +127,7 @@ public class AnswersListActivity extends AppCompatActivity {
 
 
 
-    private void sendRequestWithQuestionList(){
+    private void sendRequestWithAnswerList(){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -128,9 +157,12 @@ public class AnswersListActivity extends AppCompatActivity {
         Log.d("AnswersListActivity", "answersListReturnData is " + answersListReturnData.toString());
         List<SingleAnswerData> answersList = answersListReturnData.getData();//问题列表提取成功
 
+        answerItemList.clear();
         for(int i = 0; i< answersListReturnData.getTotal(); i++){
-            AnswerItem answerItem = new AnswerItem(answersList.get(i).getAnswerer().getName(),R.drawable.head,answersList.get(i).getContent(),answersList.get(i).getAnswerer().getId());//content为后端的回答，等于answer
+
+            AnswerItem answerItem = new AnswerItem(answersList.get(i).getId(), answersList.get(i).getAnswerer().getId(),answersList.get(i).getAnswerer().getName(),R.drawable.head,answersList.get(i).getContent(),answersList.get(i).getSupportersCount(),answersList.get(i).getVoted());//content为后端的回答，等于answer
             answerItemList.add(answerItem);
+            Log.d("AnswersListActivity"," answerItemList.toString() "+answerItem.getAnswer());
         }
 
         runOnUiThread(new Runnable() {

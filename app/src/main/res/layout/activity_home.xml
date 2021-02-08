@@ -28,7 +28,7 @@
         />
 
     <Button
-        android:id="@+id/bt_top"
+        android:id="@+id/btHot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="热榜"

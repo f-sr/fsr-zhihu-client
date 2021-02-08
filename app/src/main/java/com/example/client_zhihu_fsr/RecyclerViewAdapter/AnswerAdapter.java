@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.client_zhihu_fsr.Activity.AnswerActivity;
+import com.example.client_zhihu_fsr.Activity.MyQuestionActivity;
 import com.example.client_zhihu_fsr.R;
 
 
@@ -60,15 +62,31 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.ViewHolder
 
                 int position = holder.getAdapterPosition();
                 AnswerItem answerItem = mAnswerItemList.get(position);
+                boolean isMine;
 
                 SharedPreferences sp = v.getContext().getSharedPreferences("loginToken",0);
                 int uId = sp.getInt("uid",0);
-
+                Log.d("AnswerAdapter","uid/AnswerUId is    "+uId+"/"+answerItem.getAnswererId());
                 if(uId == answerItem.getAnswererId()) {
+
                     //表示点进的是自己的回答(可编辑)
+                    String answer = answerItem.getAnswer();
+                    isMine = true;
+                    Intent intent =new Intent(v.getContext(), AnswerActivity.class);
+                    intent.putExtra("extraAnswer",answer);
+                    intent.putExtra("extraAnswerIsMine",isMine);
+                    v.getContext().startActivity(intent);
+
                     Toast.makeText(v.getContext(),"you clicked your answer ", Toast.LENGTH_SHORT).show();//测试用，提示
                 }else {
                     //表示点进的是别人的回答(不可编辑)
+                    String answer = answerItem.getAnswer();
+                    isMine = false;
+                    Intent intent =new Intent(v.getContext(), AnswerActivity.class);
+                    intent.putExtra("extraAnswer",answer);
+                    intent.putExtra("extraAnswerIsMine",isMine);
+                    v.getContext().startActivity(intent);
+
                     Toast.makeText(v.getContext(),"you clicked others answer ",Toast.LENGTH_SHORT).show();//测试用，提示
                 }
 

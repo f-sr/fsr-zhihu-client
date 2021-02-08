@@ -27,6 +27,8 @@
         android:text="XXX人回答了这个问题"
         android:textSize="20dp"
         android:gravity="left"
+        android:textColor="@color/gray"
+        style="?android:attr/borderlessButtonStyle"
 
 
         android:layout_marginTop="5dp"
@@ -94,74 +96,72 @@
         tools:layout_editor_absoluteX="0dp" />
 
 
+<!--    <com.sackcentury.shinebuttonlib.ShineButton-->
+<!--        android:id="@+id/bt_heart"-->
+<!--        android:layout_width="10dp"-->
+<!--        android:layout_height="21dp"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:layout_marginRight="50dp"-->
+<!--        android:elevation="10dp"-->
+<!--        app:btn_color="@android:color/darker_gray"-->
+<!--        app:btn_fill_color="#f26d7d"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/tvViews"-->
+<!--        app:layout_constraintRight_toLeftOf="@+id/bt_comment"-->
+<!--        app:siShape="@raw/heart" />-->
+<!--    -->
+<!--    <TextView-->
+<!--        android:id="@+id/tvViews"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="100"-->
+<!--        android:textSize="10dp"-->
 
-    <com.sackcentury.shinebuttonlib.ShineButton
-        android:id="@+id/bt_heart"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="20dp"
-        android:layout_centerInParent="true"
-        app:btn_color="@android:color/darker_gray"
-        app:btn_fill_color="#f26d7d"
-        app:siShape="@raw/heart"
-        android:elevation="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/tvViews"
-        app:layout_constraintRight_toLeftOf="@+id/bt_comment"
-        android:layout_marginRight="50dp"
-        />
-    <TextView
-        android:id="@+id/tvViews"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="100"
-        android:textSize="10dp"
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintRight_toLeftOf="@+id/bt_comment"-->
+<!--        android:layout_marginRight="55dp"-->
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/bt_comment"
-        android:layout_marginRight="55dp"
-
-        />
+<!--        />-->
 
 
 
-    <com.sackcentury.shinebuttonlib.ShineButton
-        android:id="@+id/bt_star"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_centerInParent="true"
-        app:btn_color="@android:color/darker_gray"
-        app:btn_fill_color="#996699"
-        app:enable_flashing="true"
-        app:shine_size="40dp"
-        app:siShape="@raw/star"
-        app:layout_constraintBottom_toTopOf="@+id/tv_star"
-        app:layout_constraintRight_toLeftOf="@+id/bt_comment"
-        android:layout_marginRight="10dp"
-        />
+<!--    <com.sackcentury.shinebuttonlib.ShineButton-->
+<!--        android:id="@+id/bt_star"-->
+<!--        android:layout_width="30dp"-->
+<!--        android:layout_height="30dp"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        app:btn_color="@android:color/darker_gray"-->
+<!--        app:btn_fill_color="#996699"-->
+<!--        app:enable_flashing="true"-->
+<!--        app:shine_size="40dp"-->
+<!--        app:siShape="@raw/star"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/tv_star"-->
+<!--        app:layout_constraintRight_toLeftOf="@+id/bt_comment"-->
+<!--        android:layout_marginRight="10dp"-->
+<!--        />-->
 
-    <TextView
-        android:id="@+id/tv_star"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="100"
-        android:textSize="10dp"
+<!--    <TextView-->
+<!--        android:id="@+id/tv_star"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="100"-->
+<!--        android:textSize="10dp"-->
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/bt_comment"
-        android:layout_marginRight="15dp"
-        />
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintRight_toLeftOf="@+id/bt_comment"-->
+<!--        android:layout_marginRight="15dp"-->
+<!--        />-->
 
 
 
-    <Button
-        android:id="@+id/bt_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="评论"
-        android:textSize="15dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+<!--    <Button-->
+<!--        android:id="@+id/bt_comment"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="评论"-->
+<!--        android:textSize="15dp"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        />-->
 
 
 

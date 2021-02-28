@@ -13,7 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.client_zhihu_fsr.R;
-import com.example.client_zhihu_fsr.ReturnData.PublishReturnData;
+import com.example.client_zhihu_fsr.ReturnData.QuestionListReturnData;
+import com.example.client_zhihu_fsr.ReturnData.QuestionReturnData;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -29,7 +30,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     private EditText editText_publishTitle;
     private EditText editText_publishDescribe;
     private Button button_checkPublish;
-    private PublishReturnData publishReturnData;
+    private QuestionReturnData questionReturnData;
     private String originAddress = "http://42.192.88.213:8080/api/question/create";
 
 
@@ -127,14 +128,14 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     private void parseJSONWithJSONObject(String jsonData){
 
         Gson gson = new Gson();
-        publishReturnData = gson.fromJson(jsonData, PublishReturnData.class);
-        Log.d("PublishActivity","publishReturnData is "+publishReturnData.toString());
+        questionReturnData = gson.fromJson(jsonData, QuestionReturnData.class);
+        Log.d("PublishActivity","publishReturnData is "+ questionReturnData.toString());
 
         //切回UI线程做后处理
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (publishReturnData.getMessage().equals("success")) {
+                if (questionReturnData.getMessage().equals("success")) {
                     Toast.makeText(getApplicationContext(), "发布成功", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(PublishActivity.this, HomeActivity.class);
                     setResult(RESULT_OK, intent);

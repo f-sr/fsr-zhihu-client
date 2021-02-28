@@ -2,7 +2,7 @@ package com.example.client_zhihu_fsr.ReturnData;
 
 import java.util.List;
 
-public class HomeReturnData {
+public class QuestionListReturnData {
     private List<SingleQuestionData> data;
     private String message;
     private int status;

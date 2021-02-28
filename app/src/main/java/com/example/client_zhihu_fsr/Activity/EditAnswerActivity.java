@@ -68,12 +68,13 @@ public class EditAnswerActivity extends AppCompatActivity implements View.OnClic
         //传入问题的ID
         Intent intent = getIntent();
         answer = intent.getStringExtra("extraAnswer");
-        answerId = intent.getIntExtra("extraAnswerId",0);
+        answerId = intent.getIntExtra("extraAnswerId",404);
 
         editTextAnswer.setText(answer);
 
         StringBuffer Address = new StringBuffer(originAddress);
         Address.append(answerId);
+        Log.d("EditAnswerActivity","answerID is "+answerId);
         originAddressNew = new String(Address);
 
         SharedPreferences sp = getSharedPreferences("loginToken",0);
@@ -190,13 +191,13 @@ public class EditAnswerActivity extends AppCompatActivity implements View.OnClic
 //                    Intent intent = new Intent(EditQuestionActivity.this,HomeActivity.class);
 //                    startActivity(intent);
 
-//                    new Handler().postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            startActivity(new Intent(EditAnswerActivity.this,HomeActivity.class));
-//                        }
-//                    },100);
-                    finish();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(EditAnswerActivity.this,AnswersListActivity.class));
+                        }
+                    },100);
+                 //   finish();
 
 
                 }

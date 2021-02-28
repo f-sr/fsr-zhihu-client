@@ -172,7 +172,6 @@ public class AnswersListActivity extends AppCompatActivity {
                     textViewTitle.setText(questionTitle);
                     textViewViews.setText(viewCount+"浏览");
                     textViewAnswers.setText(answersCount+"回答");
-                    Toast.makeText(AnswersListActivity.this, "回答列表加载成功", Toast.LENGTH_LONG).show();
                 }
 
             }

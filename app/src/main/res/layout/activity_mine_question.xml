@@ -8,10 +8,10 @@
 
 
     <TextView
-        android:id="@+id/tvMyAnswer"
+        android:id="@+id/tvMyQuestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="我的回答"
+        android:text="我的提问"
         android:textColor="@color/black"
         android:textSize="40dp"
         />
@@ -22,13 +22,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/tvMyAnswer"
+        app:layout_constraintTop_toBottomOf="@+id/tvMyQuestion"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="10dp"
         >
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMyAnswersList"
+            android:id="@+id/rvMyQuestionsList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
@@ -37,7 +37,5 @@
             />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

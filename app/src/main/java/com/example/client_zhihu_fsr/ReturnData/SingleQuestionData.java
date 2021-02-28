@@ -11,6 +11,7 @@ public class SingleQuestionData {
     private String updatedAt;
     private int answersCount;
     private int viewCount;
+    private int hot;
 
     public static class Questioner {
         private int id;
@@ -71,6 +72,9 @@ public class SingleQuestionData {
         return updatedAt;
     }
 
+    public int getHot() {
+        return hot;
+    }
 
     @Override
     public String toString() {
@@ -83,6 +87,7 @@ public class SingleQuestionData {
                 ", updatedAt='" + updatedAt + '\'' +
                 ", answersCount=" + answersCount +
                 ", viewCount=" + viewCount +
+                ", hot=" + hot +
                 '}';
     }
 }

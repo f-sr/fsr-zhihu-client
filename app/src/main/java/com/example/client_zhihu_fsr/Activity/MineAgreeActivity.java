@@ -13,9 +13,9 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.client_zhihu_fsr.R;
 import com.example.client_zhihu_fsr.RecyclerViewAdapter.AnswerAdapter;
 import com.example.client_zhihu_fsr.RecyclerViewAdapter.AnswerItem;
-import com.example.client_zhihu_fsr.R;
 import com.example.client_zhihu_fsr.ReturnData.AnswersListReturnData;
 import com.example.client_zhihu_fsr.ReturnData.SingleAnswerData;
 import com.google.gson.Gson;
@@ -29,36 +29,36 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MineAnswerActivity extends AppCompatActivity {
+public class MineAgreeActivity extends AppCompatActivity {
 
     private List<AnswerItem> answerItemList = new ArrayList<>();
     private AnswersListReturnData answersListReturnData;
-    private RecyclerView myAnswerRecyclerView;
+    private RecyclerView myAgreeRecyclerView;
     private AnswerAdapter myAnswerAdapter;
-    private TextView textViewMyAnswer;
+    private TextView textViewMyAgree;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private String token;
-    private String originAddress = "http://42.192.88.213:8080/api/answers/listByUser?userID=";
+    private String originAddress = "http://42.192.88.213:8080/api/answers/listByVoter?voterID=";
     private String NewAddress ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mine_answer);
+        setContentView(R.layout.activity_mine_agree);
+
         initView();
         initEvent();
-        sendRequestWithAnswerList();
+        sendRequestWithAgreeList();
         myAnswerAdapter = new AnswerAdapter(answerItemList);
-        myAnswerRecyclerView.setAdapter(myAnswerAdapter);
-        myAnswerRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));//划线
-
+        myAgreeRecyclerView.setAdapter(myAnswerAdapter);
+        myAgreeRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));//划线
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
-                sendRequestWithAnswerList();
+                sendRequestWithAgreeList();
                 //  mQuestionAdapter = new QuestionAdapter(questionItemList);
 
                 myAnswerAdapter.notifyDataSetChanged();
@@ -71,15 +71,12 @@ public class MineAnswerActivity extends AppCompatActivity {
                 }, 1000);
             }
         });
-
     }
-
-
 
     //初始化控件方法
     private void initView() {
-        textViewMyAnswer = (TextView) findViewById(R.id.tvMyAnswer) ;
-        myAnswerRecyclerView = (RecyclerView) findViewById(R.id.rvMyAnswersList);
+        textViewMyAgree = (TextView) findViewById(R.id.tvMyAgree) ;
+        myAgreeRecyclerView = (RecyclerView) findViewById(R.id.rvMyAgreeList);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
     }
 
@@ -89,7 +86,7 @@ public class MineAnswerActivity extends AppCompatActivity {
 
         //recyclerView设置布局管理
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        myAnswerRecyclerView.setLayoutManager(layoutManager);
+        myAgreeRecyclerView.setLayoutManager(layoutManager);
 
         //token
         SharedPreferences sp = getSharedPreferences("loginToken",0);
@@ -105,7 +102,7 @@ public class MineAnswerActivity extends AppCompatActivity {
 
 
 
-    private void sendRequestWithAnswerList(){
+    private void sendRequestWithAgreeList(){
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -133,7 +130,7 @@ public class MineAnswerActivity extends AppCompatActivity {
         Gson gson = new Gson();
         Type type = new TypeToken<AnswersListReturnData>() {}.getType();
         answersListReturnData = gson.fromJson(jsonData, type);
-        Log.d("AnswersListActivity", "answersListReturnData is " + answersListReturnData.toString());
+        Log.d("MineAgreeActivity", "answersListReturnData is " + answersListReturnData.toString());
         List<SingleAnswerData> answersList = answersListReturnData.getData();//问题列表提取成功
 
         answerItemList.clear();
@@ -141,21 +138,19 @@ public class MineAnswerActivity extends AppCompatActivity {
 
             AnswerItem answerItem = new AnswerItem(answersList.get(i).getId(), answersList.get(i).getAnswerer().getId(),answersList.get(i).getAnswerer().getName(),R.drawable.head,answersList.get(i).getContent(),answersList.get(i).getSupportersCount(),answersList.get(i).getVoted());//content为后端的回答，等于answer
             answerItemList.add(answerItem);
-            Log.d("AnswersListActivity"," answerItemList.toString() "+answerItem.getAnswer());
+            Log.d("MineAgreeActivity"," answerItemList.toString() "+answerItem.getAnswer());
         }
 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if(answersListReturnData.getMessage().equals("success")) {
-                    Toast.makeText(MineAnswerActivity.this, "我的回答列表加载成功", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MineAgreeActivity.this, "我的回答列表加载成功", Toast.LENGTH_LONG).show();
                 }
 
             }
         });
     }
-
-
 
 
 

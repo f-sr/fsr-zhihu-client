@@ -31,21 +31,19 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
 
     private TextView textViewAnswer;
     private Button buttonEditAnswer;
-//    private Button buttonAgree;
-//    private Button buttonDisagree;
-//    private com.sackcentury.shinebuttonlib.ShineButton buttonAgree;
-//    private TextView textViewAgreeNum;
+
     private ToggleButton toggleButtonAgree;
     private ToggleButton toggleButtonDisagree;
 
     private String answer;
     private int answerId;
-    private String originAddress = "http://42.192.88.213:8080/api/answer/";
-    private String originAddressNew ;
+    private String answerOriginAddress = "http://42.192.88.213:8080/api/answer/";
+    private String answerNewAddress ;
 
     private String agreeOriginAddress = "http://42.192.88.213:8080/api/voter/";
     private String agreeNewAddress ;
     private String disagreeNewAddress ;//反对
+
 
     private AnswerReturnData answerReturnData;
     private int supportNUm;
@@ -67,14 +65,9 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
     //初始化控件方法
     private void initView() {
         textViewAnswer = (TextView) findViewById(R.id.tvAnswer);
- //       textViewAgreeNum = (TextView) findViewById(R.id.tvAgreeNum);
-       // buttonAgree = (com.sackcentury.shinebuttonlib.ShineButton) findViewById(R.id.btAgree);
         buttonEditAnswer = (Button) findViewById(R.id.btEditAnswer);
-  //      buttonAgree = (Button) findViewById(R.id.btAgree);
-  //      buttonDisagree = (Button) findViewById(R.id.btDisagree);
         toggleButtonAgree=(ToggleButton) findViewById(R.id.ToggleBtAgree);
         toggleButtonDisagree = (ToggleButton) findViewById(R.id.ToggleBtDisagree);
-
     }
 
 
@@ -83,11 +76,11 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
     private void initDataIn() {
         //传入问题的ID
         Intent intent = getIntent();
-        answer = intent.getStringExtra("extraAnswer");
-        answerId = intent.getIntExtra("extraAnswerId",0);
+       // answer = intent.getStringExtra("extraAnswer");
+        answerId = intent.getIntExtra("extraAnswerId",404);
         Boolean isMine = intent.getBooleanExtra("extraAnswerIsMine",false);
-        textViewAnswer.setText(answer);
-        //是自己的回答
+       // textViewAnswer.setText(answer);
+        //是否是自己的回答
         Log.d("AnswerAdapter","uid/AnswerUId isMine    "+isMine);
         if(isMine){
             buttonEditAnswer.setVisibility(View.VISIBLE);//把编辑回答按钮显示出来
@@ -98,9 +91,9 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
         token = sp.getString("token", "");
 
         //完善IP
-        StringBuffer Address1 = new StringBuffer(originAddress);
+        StringBuffer Address1 = new StringBuffer(answerOriginAddress);
         Address1.append(answerId);
-        originAddressNew = new String(Address1);
+        answerNewAddress = new String(Address1);
 
         //点赞
         StringBuffer Address2 = new StringBuffer(agreeOriginAddress);
@@ -169,20 +162,13 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
 
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.btAgree :
-//                supportNUm++;
-//                textViewAgreeNum.setText(String.valueOf(supportNUm));
-//                break;
-
-//            case R.id.btDisagree :
-//                finish();
-//                break;
 
             case R.id.btEditAnswer :
 
                 Intent intent = new Intent(AnswerActivity.this, EditAnswerActivity.class);
                 intent.putExtra("extraAnswer",answer);
                 intent.putExtra("extraAnswerId",answerId);
+                Log.d("AnswerActivity","answerId = "+answerId);
                 startActivity(intent);
                 break;
 
@@ -200,7 +186,7 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder()
-                            .url(originAddressNew)
+                            .url(answerNewAddress)
                             .addHeader("authorization", token)
                             .build();
 
@@ -229,9 +215,34 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void run() {
                 if (answerReturnData.getMessage().equals("success")) {
-                    Toast.makeText(getApplicationContext(), "回答信息加载成功", Toast.LENGTH_LONG).show();
-                    supportNUm=answerReturnData.getData().getSupportersCount();
-                    toggleButtonAgree.setTextOff("赞同"+String.valueOf(supportNUm));
+                    Toast.makeText(getApplicationContext(), "回答信息加载成功", Toast.LENGTH_SHORT).show();
+
+                    answer = answerReturnData.getData().getContent();
+                    textViewAnswer.setText(answer);
+                    //之前点过赞
+                    if(answerReturnData.getData().getVoted() == 1) {
+                        supportNUm=answerReturnData.getData().getSupportersCount()-1;//避免重复记录赞数
+                        toggleButtonAgree.setChecked(true);
+                        toggleButtonAgree.setTextOn("赞同"+String.valueOf(supportNUm));
+                        toggleButtonAgree.setVisibility(View.VISIBLE);
+                    }
+                    //之前点过踩
+                    else if(answerReturnData.getData().getVoted() == -1){
+                        supportNUm=answerReturnData.getData().getSupportersCount();
+                        toggleButtonDisagree.setChecked(true);
+                        toggleButtonDisagree.setVisibility(View.VISIBLE);
+                    }
+
+                    //之前没有任何操作
+                    else if(answerReturnData.getData().getVoted() == 0){
+                        supportNUm=answerReturnData.getData().getSupportersCount();
+                        toggleButtonAgree.setChecked(false);
+                        toggleButtonAgree.setTextOff("赞同"+String.valueOf(supportNUm));
+                        toggleButtonAgree.setVisibility(View.VISIBLE);
+                        toggleButtonDisagree.setVisibility(View.VISIBLE);
+                    }
+
+
 
                 }else {
                     Toast.makeText(getApplicationContext(), "回答信息加载失败", Toast.LENGTH_LONG).show();

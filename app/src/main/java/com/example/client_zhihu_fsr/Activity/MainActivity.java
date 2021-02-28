@@ -101,12 +101,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void sendRequestForLogin() {
 //        String number = editText_PhoneNumber.getText().toString().trim();
 //        String password = editText_Password.getText().toString().trim();
-
+//
           String number = "123456@163.com";
           String password = "123456";
-//
-//        String number = "fsr@163.com";
-//        String password = "123456";
+//          String number = "2245244149@qq.com";
+//          String password = "123456";
+
 
         if (number.isEmpty()) {
             Toast.makeText(MainActivity.this, "账号不能为空！", Toast.LENGTH_LONG).show();

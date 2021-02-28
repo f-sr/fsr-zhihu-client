@@ -61,40 +61,40 @@
 
 
 
-        <Button
-            android:id="@+id/btHomePage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="首页"
-            android:textSize="30sp"
-            android:textColor="@color/black"
+    <Button
+        android:id="@+id/btHomePage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="首页"
+        android:textSize="30sp"
+        android:textColor="@color/black"
 
 
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/btPublish"
-            style="?android:attr/borderlessButtonStyle"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btPublish"
+        style="?android:attr/borderlessButtonStyle"
 
-            />
+        />
 
 
-        <Button
-            android:id="@+id/btMine"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="我的"
-            android:textSize="30sp"
-            android:textColor="@color/black"
+    <Button
+        android:id="@+id/btMine"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="我的"
+        android:textSize="30sp"
+        android:textColor="@color/black"
 
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/btPublish"
-            app:layout_constraintRight_toRightOf="parent"
-            style="?android:attr/borderlessButtonStyle"
-            />
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/btPublish"
+        app:layout_constraintRight_toRightOf="parent"
+        style="?android:attr/borderlessButtonStyle"
+        />
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -107,11 +107,12 @@
         tools:layout_editor_absoluteX="0dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAll"
+            android:id="@+id/rvHotQuestion"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@+id/btHomePage"
-            app:layout_constraintTop_toBottomOf="@+id/btRecommendation" />
+            app:layout_constraintTop_toBottomOf="@+id/btRecommendation"
+            />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

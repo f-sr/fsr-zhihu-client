@@ -2,7 +2,8 @@ package com.example.client_zhihu_fsr.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.client_zhihu_fsr.ReturnData.PublishReturnData;
+import com.example.client_zhihu_fsr.ReturnData.QuestionListReturnData;
+import com.example.client_zhihu_fsr.ReturnData.QuestionReturnData;
 import com.google.gson.Gson;
 
 import android.content.Intent;
@@ -19,22 +20,24 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MyQuestionActivity extends AppCompatActivity implements View.OnClickListener {
+public class QuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView textViewTitle;
     private TextView textViewUserName;
     private TextView textViewDescribe;
     private ImageButton imageButtonHead;
     private Button buttonEditQuestion;
+    private Button buttonWriterAnswer;
     private Button buttonHowManyAnswer;
     private String originAddress = "http://42.192.88.213:8080/api/question/";
+    String originAddressNew;
     private int questionId;
-    private PublishReturnData publishReturnData;//这个和发布问题后获取的数据一样，所以不再重复写
+    private QuestionReturnData questionReturnData;//这个和发布问题后获取的数据一样，所以不再重复写
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_question);
+        setContentView(R.layout.activity_question);
         initView();
         initEvent();
         initDataIn();
@@ -49,6 +52,7 @@ public class MyQuestionActivity extends AppCompatActivity implements View.OnClic
         imageButtonHead = (ImageButton) findViewById(R.id.ib_head);
         buttonEditQuestion = (Button) findViewById(R.id.bt_EditQuestion);
         buttonHowManyAnswer = (Button) findViewById(R.id.bt_HowManyAnswer);
+        buttonWriterAnswer = (Button) findViewById(R.id.bt_WriterAnswer);
     }
 
 
@@ -56,6 +60,7 @@ public class MyQuestionActivity extends AppCompatActivity implements View.OnClic
     private void initEvent() {
         buttonEditQuestion.setOnClickListener(this);
         buttonHowManyAnswer.setOnClickListener(this);
+        buttonWriterAnswer.setOnClickListener(this);
     }
 
 
@@ -65,25 +70,45 @@ public class MyQuestionActivity extends AppCompatActivity implements View.OnClic
         Intent intent = getIntent();
         questionId = intent.getIntExtra("extra_QuestionId", 1);
         Log.d("QuestionActivity", "questionId is " + questionId);
+        StringBuffer Address = new StringBuffer(originAddress);
+        Address.append(questionId);
+        originAddressNew = new String(Address);
+
+        boolean isMyQuestion = intent.getBooleanExtra("extraIsMyQuestion", false);
+        //分辨是不是自己的Question
+        if (isMyQuestion) {
+            buttonWriterAnswer.setVisibility(View.GONE);
+        } else if (!isMyQuestion) {
+            buttonEditQuestion.setVisibility(View.GONE);
+        }
+
     }
 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_EditQuestion:
-                Intent intent = new Intent(MyQuestionActivity.this, EditQuestionActivity.class);
+                Intent intent = new Intent(QuestionActivity.this, EditQuestionActivity.class);
                 intent.putExtra("extraQuestionId", questionId);
-                intent.putExtra("extraTitle", publishReturnData.getData().getTitle());
-                intent.putExtra("extraDesc", publishReturnData.getData().getDesc());
+                intent.putExtra("extraTitle", questionReturnData.getData().getTitle());
+                intent.putExtra("extraDesc", questionReturnData.getData().getDesc());
                 startActivity(intent);
                 break;
 
             case R.id.bt_HowManyAnswer:
-                Intent intent2 = new Intent(MyQuestionActivity.this,AnswersListActivity.class);
-                intent2.putExtra("extraQuestionId",questionId);
-                intent2.putExtra("extraTitle",publishReturnData.getData().getTitle());
-                intent2.putExtra("extraAnswersCount",publishReturnData.getData().getAnswersCount());
-                intent2.putExtra("extraViewCount",publishReturnData.getData().getViewCount());
+                Intent intent2 = new Intent(QuestionActivity.this, AnswersListActivity.class);
+                intent2.putExtra("extraQuestionId", questionId);
+                intent2.putExtra("extraTitle", questionReturnData.getData().getTitle());
+                intent2.putExtra("extraAnswersCount", questionReturnData.getData().getAnswersCount());
+                intent2.putExtra("extraViewCount", questionReturnData.getData().getViewCount());
                 startActivity(intent2);
+                break;
+
+            case R.id.bt_WriterAnswer:
+                //
+                Intent intent3 = new Intent(QuestionActivity.this, WriteAnswerActivity.class);
+                intent3.putExtra("extraQuestionId", questionId);
+                intent3.putExtra("extraTitle", questionReturnData.getData().getTitle());
+                startActivity(intent3);
                 break;
 
             default:
@@ -97,9 +122,6 @@ public class MyQuestionActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void run() {
                 try {
-                    StringBuffer Address = new StringBuffer(originAddress);
-                    Address.append(questionId);
-                    String originAddressNew = new String(Address);
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder()
                             .url(originAddressNew)
@@ -119,21 +141,19 @@ public class MyQuestionActivity extends AppCompatActivity implements View.OnClic
 
     private void parseJSONWithJSONObject(String jsonData) {
         Gson gson = new Gson();
-        publishReturnData = gson.fromJson(jsonData, PublishReturnData.class);
-        Log.d("MyQuestionActivity", "publishReturnData is  " + publishReturnData.toString());
+        questionReturnData = gson.fromJson(jsonData, QuestionReturnData.class);
+        Log.d("MyQuestionActivity", "questionReturnData is  " + questionReturnData.toString());
         //切回IU线程
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                textViewTitle.setText(publishReturnData.getData().getTitle());
-                textViewDescribe.setText(publishReturnData.getData().getDesc());
-                textViewUserName.setText(publishReturnData.getData().getQuestioner().getName());
-                buttonHowManyAnswer.setText(publishReturnData.getData().getAnswersCount()+"人回答了这个问题");
+                textViewTitle.setText(questionReturnData.getData().getTitle());
+                textViewDescribe.setText(questionReturnData.getData().getDesc());
+                textViewUserName.setText(questionReturnData.getData().getQuestioner().getName());
+                buttonHowManyAnswer.setText(questionReturnData.getData().getAnswersCount() + "人回答了这个问题");
             }
         });
     }
-
-
 
 
 

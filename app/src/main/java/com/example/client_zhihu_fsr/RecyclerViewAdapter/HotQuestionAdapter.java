@@ -18,9 +18,9 @@ import com.example.client_zhihu_fsr.R;
 
 import java.util.List;
 
-public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHolder> {
+public class HotQuestionAdapter extends RecyclerView.Adapter<HotQuestionAdapter.ViewHolder> {
 
-    private List<QuestionItem> mQuestionItemList;
+    private List<HotQuestionItem> mHotQuestionItemList;
 
     //内部类，基本数据结构
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -31,7 +31,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         TextView itemDescribe;
         TextView itemViewCount;
         TextView itemAnswersCount;
-
+        TextView rank;
+        TextView hot;
 
         //内部类构造函数，传入布局
         public ViewHolder(View view) {
@@ -43,15 +44,16 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
             itemDescribe =(TextView)view.findViewById(R.id.tv_describe);
             itemViewCount =(TextView)view.findViewById(R.id.tvViews);
             itemAnswersCount =(TextView)view.findViewById(R.id.tvAnswersCount);
-
+            rank =(TextView)view.findViewById(R.id.tvRank);
+            hot =(TextView)view.findViewById(R.id.tvHot);
         }
     }
 
 
 
     //适配器构造函数
-    public QuestionAdapter(List<QuestionItem> questionItemList) {
-        mQuestionItemList = questionItemList;
+    public HotQuestionAdapter(List<HotQuestionItem> questionItemList) {
+        mHotQuestionItemList = questionItemList;
     }
 
 
@@ -59,7 +61,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     //创建ViewHolder实例
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent,int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.question_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hot_question_item,parent,false);
         final ViewHolder holder = new ViewHolder(view);
         //对一个item设置监听事件
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -69,17 +71,17 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
                 boolean isMyQuestion;
 
                 int position = holder.getAdapterPosition();
-                QuestionItem questionItem = mQuestionItemList.get(position);
+                HotQuestionItem hotQuestionItem = mHotQuestionItemList.get(position);
 
                 SharedPreferences sp = v.getContext().getSharedPreferences("loginToken",0);
                 int uId = sp.getInt("uid",0);
-                Log.d("ContentAdapter","uid/quesUid "+ uId+"/"+questionItem.getuId());
+                Log.d("ContentAdapter","uid/quesUid "+ uId+"/"+hotQuestionItem.getuId());
 
-                if(uId== questionItem.getuId()){
+                if(uId== hotQuestionItem.getuId()){
                     //表示点进的是自己发布的问题
                     isMyQuestion = true;
-                    Log.d("ContentAdapter","questionId is "+ questionItem.getQuestionId());
-                    int questionId = questionItem.getQuestionId();
+                    Log.d("ContentAdapter","questionId is "+ hotQuestionItem.getQuestionId());
+                    int questionId = hotQuestionItem.getQuestionId();
                     Intent intent =new Intent(v.getContext(), QuestionActivity.class);
                     intent.putExtra("extra_QuestionId",questionId);
                     intent.putExtra("extraIsMyQuestion",isMyQuestion);
@@ -88,8 +90,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
 
                 }else{//点进了别人发布的问题
                     isMyQuestion = false;
-                    Log.d("ContentAdapter","questionId is "+ questionItem.getQuestionId());
-                    int questionId = questionItem.getQuestionId();
+                    Log.d("ContentAdapter","questionId is "+ hotQuestionItem.getQuestionId());
+                    int questionId = hotQuestionItem.getQuestionId();
                     Intent intent_others =new Intent(v.getContext(), QuestionActivity.class);
                     intent_others.putExtra("extra_QuestionId",questionId);
                     intent_others.putExtra("extraIsMyQuestion",isMyQuestion);
@@ -110,13 +112,16 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("ContentAdapter","position"+position);
-        QuestionItem questionItem = mQuestionItemList.get(position);
-        holder.itemTitle.setText(questionItem.getTitle());
-        holder.itemHeadImage.setImageResource(questionItem.getHeadImageId());
-        holder.itemName.setText(questionItem.getName());
-        holder.itemDescribe.setText(questionItem.getDescribe());
-        holder.itemViewCount.setText(questionItem.getViewsCount()+"浏览");
-        holder.itemAnswersCount.setText(questionItem.getAnswersCount()+"回答");
+        HotQuestionItem hotQuestionItem = mHotQuestionItemList.get(position);
+        holder.itemTitle.setText(hotQuestionItem.getTitle());
+        holder.itemHeadImage.setImageResource(hotQuestionItem.getHeadImageId());
+        holder.itemName.setText(hotQuestionItem.getName());
+        holder.itemDescribe.setText(hotQuestionItem.getDescribe());
+        holder.itemViewCount.setText(hotQuestionItem.getViewsCount()+"浏览");
+        holder.itemAnswersCount.setText(hotQuestionItem.getAnswersCount()+"回答");
+Log.d("HotQuestionAdapter","hotQuestionItem.getHot() = "+hotQuestionItem.getHot());
+        holder.hot.setText("热度"+hotQuestionItem.getHot());
+        holder.rank.setText(""+hotQuestionItem.getRank());
     }
 
 
@@ -124,7 +129,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     //对item计数
     @Override
     public int getItemCount() {
-        return mQuestionItemList.size();
+        return mHotQuestionItemList.size();
     }
 
     public long getItemId(int position) {

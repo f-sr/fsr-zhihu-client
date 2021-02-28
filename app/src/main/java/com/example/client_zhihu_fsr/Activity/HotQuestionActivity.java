@@ -12,9 +12,10 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.client_zhihu_fsr.RecyclerViewAdapter.HotQuestionAdapter;
+import com.example.client_zhihu_fsr.RecyclerViewAdapter.HotQuestionItem;
 import com.example.client_zhihu_fsr.RecyclerViewAdapter.QuestionItem;
 import com.example.client_zhihu_fsr.RecyclerViewAdapter.QuestionAdapter;
 import com.example.client_zhihu_fsr.R;
@@ -30,44 +31,41 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
+public class HotQuestionActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private List<QuestionItem> questionItemList = new ArrayList<>();
+    private List<HotQuestionItem> hotQuestionItemList = new ArrayList<>();
     private  Button buttonMine;
     private Button buttonPublish;
     private Button buttonHomePage;
     private Button buttonHotQuestion;
-    private RecyclerView mQuestionRecyclerView;
+    private Button buttonRecommendation;
+    private RecyclerView mHotQuestionRecyclerView;
     private QuestionListReturnData questionListReturnData;
-    private String originAddress = "http://42.192.88.213:8080/api/questions/list?order=create_time";
-    private QuestionAdapter mQuestionAdapter;
+    private String originAddress = "http://42.192.88.213:8080/api/questions/topQ";
+    private HotQuestionAdapter mHotQuestionAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-
-    private TextView textViewRank;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_hot_question);
         initView();
         initEvent();
         sendRequestWithQuestionList();
-
-
-        mQuestionAdapter = new QuestionAdapter(questionItemList);
-        mQuestionRecyclerView.setAdapter(mQuestionAdapter);
-        mQuestionRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));//划线
+        mHotQuestionAdapter = new HotQuestionAdapter(hotQuestionItemList);
+        mHotQuestionRecyclerView.setAdapter(mHotQuestionAdapter);
+        mHotQuestionRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));//划线
 
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                questionItemList.clear();
+                hotQuestionItemList.clear();
                 sendRequestWithQuestionList();
-              //  mQuestionAdapter = new QuestionAdapter(questionItemList);
+                mHotQuestionAdapter = new HotQuestionAdapter(hotQuestionItemList);
 
-                mQuestionAdapter.notifyDataSetChanged();
+                mHotQuestionAdapter.notifyDataSetChanged();
 //                //模拟网络请求需要3000毫秒，请求完成，设置setRefreshing 为false
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -84,10 +82,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         buttonMine = (Button)findViewById(R.id.btMine);
         buttonPublish = (Button)findViewById(R.id.btPublish);
-        mQuestionRecyclerView = (RecyclerView) findViewById(R.id.rvAll);
+        mHotQuestionRecyclerView = (RecyclerView) findViewById(R.id.rvHotQuestion);
         buttonHomePage = (Button)findViewById(R.id.btHomePage);
         buttonHotQuestion = (Button)findViewById(R.id.btHot);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
+        buttonRecommendation = (Button)findViewById(R.id.btRecommendation);
     }
 
 
@@ -97,9 +96,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         buttonPublish.setOnClickListener(this);
         buttonHomePage.setOnClickListener(this);
         buttonHotQuestion.setOnClickListener(this);
+        buttonRecommendation.setOnClickListener(this);
         //recyclerView设置布局管理
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mQuestionRecyclerView.setLayoutManager(layoutManager);
+        mHotQuestionRecyclerView.setLayoutManager(layoutManager);
     }
 
 
@@ -107,20 +107,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btMine :
-                Intent intentMine =new Intent(HomeActivity.this, MineActivity.class);
+                Intent intentMine =new Intent(HotQuestionActivity.this, MineActivity.class);
                 startActivityForResult(intentMine,2);
                 break;
 
             case R.id.btPublish :
-                Intent intentPublish = new Intent(HomeActivity.this, PublishActivity.class);
+                Intent intentPublish = new Intent(HotQuestionActivity.this, PublishActivity.class);
                 startActivityForResult(intentPublish,1);
                 break;
 
             case R.id.btHomePage :
                 break;
 
-            case R.id.btHot:
-                Intent intent = new Intent(HomeActivity.this, HotQuestionActivity.class);
+            case R.id.btRecommendation:
+                Intent intent = new Intent(HotQuestionActivity.this, HomeActivity.class);
                 startActivity(intent);
 
             default:
@@ -143,7 +143,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                             .build();
                     Response response = client.newCall(request).execute();
                     String responseData = response.body().string();
-                    Log.d("HomeActivity","responseData is "+responseData);
+                    Log.d("HotActivity","responseData is "+responseData);
                     parseJSONWithJSONObject(responseData);
                 }catch (Exception e) {
                     e.printStackTrace();
@@ -159,14 +159,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Gson gson = new Gson();
         java.lang.reflect.Type type = new TypeToken<QuestionListReturnData>() {}.getType();
         questionListReturnData = gson.fromJson(jsonData, type);
-        Log.d("HomeActivity", "homeReturnData is " + questionListReturnData.toString());
+        Log.d("HotActivity", "hotReturnData is " + questionListReturnData.toString());
 
         List<SingleQuestionData> questionsList = questionListReturnData.getData();//问题列表提取成功
 
 
-        for(int i = 0; i< questionListReturnData.getTotal(); i++){
-            QuestionItem questionItem = new QuestionItem(questionsList.get(i).getQuestioner().getId() , questionsList.get(i).getId(),questionsList.get(i).getTitle(),R.drawable.head,questionsList.get(i).getQuestioner().getName(),questionsList.get(i).getDesc(),questionsList.get(i).getViewCount(),questionsList.get(i).getAnswersCount());
-            questionItemList.add(questionItem);
+        for(int i = 0; i< 10; i++){
+            HotQuestionItem hotQuestionItem = new HotQuestionItem(questionsList.get(i).getQuestioner().getId() , questionsList.get(i).getId(),questionsList.get(i).getTitle(),R.drawable.head,questionsList.get(i).getQuestioner().getName(),questionsList.get(i).getDesc(),questionsList.get(i).getViewCount(),questionsList.get(i).getAnswersCount(),questionsList.get(i).getHot(),i+1);
+            hotQuestionItemList.add(hotQuestionItem);
         }
 
         // Handler(homeReturn_data);
@@ -177,7 +177,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 if(questionListReturnData.getMessage().equals("success")) {
-                    Toast.makeText(HomeActivity.this, "问题列表加载成功", Toast.LENGTH_LONG).show();
+                    Toast.makeText(HotQuestionActivity.this, "热门问题列表加载成功", Toast.LENGTH_LONG).show();
                 }
 
             }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.MyQuestionActivity"
+    tools:context=".Activity.QuestionActivity"
     tools:ignore="MissingConstraints">
 
 
@@ -24,9 +24,9 @@
 
     <Button
         android:id="@+id/bt_HowManyAnswer"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="XXX人回答了这个问题"
+        android:text="                                              "
         android:textSize="20dp"
         android:gravity="left"
         android:textColor="@color/gray"
@@ -35,10 +35,23 @@
 
         android:layout_marginTop="5dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/bt_EditQuestion"
+
         app:layout_constraintTop_toBottomOf="@+id/tv_Title"
-        app:layout_constraintHorizontal_weight="3"
+
         />
+
+    <Button
+        android:id="@+id/bt_WriterAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="写回答"
+        android:textSize="15dp"
+        android:background="@color/cornflowerblue"
+        android:visibility="visible"
+        android:layout_marginTop="5dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_Title" />
+
 
     <Button
         android:id="@+id/bt_EditQuestion"
@@ -46,18 +59,19 @@
         android:layout_height="wrap_content"
         android:text="编辑问题"
         android:textSize="15dp"
-
+        android:background="@color/cornflowerblue"
+        android:visibility="visible"
         android:layout_marginTop="5dp"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintLeft_toRightOf="@+id/bt_HowManyAnswer"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_Title" />
 
 
 
+
+
     <LinearLayout
         android:id="@+id/linearLayoutUser"
-        app:layout_constraintTop_toBottomOf="@id/bt_EditQuestion"
+        app:layout_constraintTop_toBottomOf="@id/bt_HowManyAnswer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

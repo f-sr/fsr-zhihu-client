@@ -145,7 +145,8 @@ public class MineAgreeActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(answersListReturnData.getMessage().equals("success")) {
-                    Toast.makeText(MineAgreeActivity.this, "我的回答列表加载成功", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(MineAgreeActivity.this, "我的回答列表加载成功", Toast.LENGTH_LONG).show();
+                    myAnswerAdapter.notifyDataSetChanged();
                 }
 
             }

@@ -149,6 +149,9 @@ public class WriteAnswerActivity extends AppCompatActivity implements View.OnCli
                 if(writeAnswerReturnData.getMessage().equals("success")){
                     Toast.makeText(WriteAnswerActivity.this,"回答成功",Toast.LENGTH_SHORT).show();
 
+                    Intent intent = new Intent();
+                    intent.putExtra("answerSuccess","yes");
+                    setResult(RESULT_OK,intent);
                     finish();
                 }
             }

@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -43,7 +45,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private QuestionAdapter mQuestionAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private TextView textViewRank;
 
 
     @Override
@@ -54,10 +55,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         initEvent();
         sendRequestWithQuestionList();
 
+    mQuestionAdapter = new QuestionAdapter(questionItemList);
+    mQuestionRecyclerView.setAdapter(mQuestionAdapter);
+    mQuestionRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));//划线
 
-        mQuestionAdapter = new QuestionAdapter(questionItemList);
-        mQuestionRecyclerView.setAdapter(mQuestionAdapter);
-        mQuestionRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));//划线
+
+
 
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -84,7 +87,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         buttonMine = (Button)findViewById(R.id.btMine);
         buttonPublish = (Button)findViewById(R.id.btPublish);
-        mQuestionRecyclerView = (RecyclerView) findViewById(R.id.rvAll);
+        mQuestionRecyclerView = (RecyclerView) findViewById(R.id.rvQuestion);
         buttonHomePage = (Button)findViewById(R.id.btHomePage);
         buttonHotQuestion = (Button)findViewById(R.id.btHot);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
@@ -105,15 +108,32 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void onClick(View v) {
+        SharedPreferences sp = getSharedPreferences("loginToken", 0);
+        Boolean signed = sp.getBoolean("Signed", false);
+        Log.d("HomeActivity","signed = "+signed);
+
         switch (v.getId()) {
             case R.id.btMine :
-                Intent intentMine =new Intent(HomeActivity.this, MineActivity.class);
-                startActivityForResult(intentMine,2);
+                if(signed){
+                    Intent intentMine =new Intent(HomeActivity.this, MineActivity.class);
+                    startActivityForResult(intentMine,2);
+                }else {
+                    Intent intentMain =new Intent(HomeActivity.this, MainActivity.class);
+                    startActivity(intentMain);
+                    Toast.makeText(HomeActivity.this, "请先登录!", Toast.LENGTH_LONG).show();
+                }
+
                 break;
 
             case R.id.btPublish :
-                Intent intentPublish = new Intent(HomeActivity.this, PublishActivity.class);
-                startActivityForResult(intentPublish,1);
+                if(signed){
+                    Intent intentPublish = new Intent(HomeActivity.this, PublishActivity.class);
+                    startActivityForResult(intentPublish,305);
+                }else {
+                    Intent intentMain =new Intent(HomeActivity.this, MainActivity.class);
+                    startActivity(intentMain);
+                    Toast.makeText(HomeActivity.this, "请先登录!", Toast.LENGTH_LONG).show();
+                }
                 break;
 
             case R.id.btHomePage :
@@ -169,7 +189,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             questionItemList.add(questionItem);
         }
 
-        // Handler(homeReturn_data);
+         Handler(questionListReturnData);
     }
 
     private void Handler(QuestionListReturnData questionListReturnData){
@@ -177,7 +197,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 if(questionListReturnData.getMessage().equals("success")) {
-                    Toast.makeText(HomeActivity.this, "问题列表加载成功", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(HomeActivity.this, "问题列表加载成功", Toast.LENGTH_SHORT).show();
+                    mQuestionAdapter.notifyDataSetChanged();
                 }
 
             }
@@ -191,7 +212,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode ,Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case 1://publish
+            case 305://publish
+                if(resultCode==RESULT_OK){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            questionItemList.clear();
+                            sendRequestWithQuestionList();
+                            mQuestionAdapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+
                 break;
             case 2://mine
                 break;

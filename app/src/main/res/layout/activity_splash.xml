@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="MissingConstraints">
-    <include layout="@layout/title_top"/>
 
-    <include layout="@layout/title_bottom"/>
-
-
-
-
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/zhihu"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

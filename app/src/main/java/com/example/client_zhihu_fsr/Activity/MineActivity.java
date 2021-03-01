@@ -34,6 +34,8 @@ public class MineActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonAgree;
     private Button buttonEditMaterials;
     private TextView textViewUserName;
+    private Button buttonPublish;
+    private TextView textViewDesc;
 
     private SelfIntroductionReturnData selfIntroductionReturnData;
     private String token;
@@ -60,18 +62,22 @@ public class MineActivity extends AppCompatActivity implements View.OnClickListe
         buttonQuestion = (Button)findViewById(R.id.btQuestion);
         buttonAnswer = (Button)findViewById(R.id.btAnswer);
         buttonAgree = (Button) findViewById(R.id.btAgree);
+        buttonPublish = (Button) findViewById(R.id.btPublish);
         buttonEditMaterials = (Button) findViewById(R.id.btEditMaterials);
         textViewUserName = (TextView) findViewById(R.id.tvUserName);
+        textViewDesc = (TextView) findViewById(R.id.tvDesc);
     }
 
 
     //注册事件方法
     private void initEvent() {
 
+        buttonPublish.setOnClickListener(this);
         buttonHomePage.setOnClickListener(this);
         buttonQuestion.setOnClickListener(this);
         buttonAnswer.setOnClickListener(this);
         buttonAgree.setOnClickListener(this);
+        buttonEditMaterials.setOnClickListener(this);
 
 
         //token
@@ -107,12 +113,22 @@ public class MineActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
+            case R.id.btPublish:
+                Intent intentPublish = new Intent(MineActivity.this, PublishActivity.class);
+                startActivity(intentPublish);
+
+                break;
+
             case R.id.btAgree:
                 Intent intentAgree = new Intent(MineActivity.this, MineAgreeActivity.class);
                 startActivity(intentAgree);
                 break;
-
-
+            case R.id.btEditMaterials:
+                Intent intentEdit = new Intent(MineActivity.this,EditSelfIntroductionActivity.class);
+                intentEdit.putExtra("name",selfIntroductionReturnData.getData().getName());
+                intentEdit.putExtra("desc",selfIntroductionReturnData.getData().getDesc());
+                startActivityForResult(intentEdit,456);
+                break;
 
             default:
                 break;
@@ -153,8 +169,36 @@ public class MineActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void run() {
                 textViewUserName.setText(selfIntroductionReturnData.getData().getName());
+                textViewDesc.setText(selfIntroductionReturnData.getData().getDesc());
             }
         });
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode ,Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 456://更新简历
+                if(resultCode==RESULT_OK){
+                    String name = data.getStringExtra("name");
+                    String desc = data.getStringExtra("desc");
+                   //Log.d("MineActivity","name/desc="+name+"/"+desc);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            textViewUserName.setText(name);
+                            textViewDesc.setText(desc);
+
+                        }
+                    });
+                }
+
+                break;
+            case 2://mine
+                break;
+            default:
+                break;
+        }
     }
 
 

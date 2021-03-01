@@ -85,8 +85,9 @@ public class HotQuestionAdapter extends RecyclerView.Adapter<HotQuestionAdapter.
                     Intent intent =new Intent(v.getContext(), QuestionActivity.class);
                     intent.putExtra("extra_QuestionId",questionId);
                     intent.putExtra("extraIsMyQuestion",isMyQuestion);
+                    intent.putExtra("extraName",hotQuestionItem.getName());
                     v.getContext().startActivity(intent);
-                    Toast.makeText(v.getContext(),"you clicked your question ",Toast.LENGTH_SHORT).show();//测试用，提示
+                //    Toast.makeText(v.getContext(),"you clicked your question ",Toast.LENGTH_SHORT).show();//测试用，提示
 
                 }else{//点进了别人发布的问题
                     isMyQuestion = false;
@@ -95,8 +96,9 @@ public class HotQuestionAdapter extends RecyclerView.Adapter<HotQuestionAdapter.
                     Intent intent_others =new Intent(v.getContext(), QuestionActivity.class);
                     intent_others.putExtra("extra_QuestionId",questionId);
                     intent_others.putExtra("extraIsMyQuestion",isMyQuestion);
+                    intent_others.putExtra("extraName",hotQuestionItem.getName());
                     v.getContext().startActivity(intent_others);
-                    Toast.makeText(v.getContext(),"you clicked others' question ",Toast.LENGTH_SHORT).show();//测试用，
+                //    Toast.makeText(v.getContext(),"you clicked others' question ",Toast.LENGTH_SHORT).show();//测试用，
                 }
 
                 //这里暂且只是实现某一个问题的详细展示，具体数据有待确定

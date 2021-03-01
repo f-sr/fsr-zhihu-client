@@ -72,7 +72,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
                 QuestionItem questionItem = mQuestionItemList.get(position);
 
                 SharedPreferences sp = v.getContext().getSharedPreferences("loginToken",0);
-                int uId = sp.getInt("uid",0);
+                int uId = sp.getInt("uid",10086);
                 Log.d("ContentAdapter","uid/quesUid "+ uId+"/"+questionItem.getuId());
 
                 if(uId== questionItem.getuId()){
@@ -83,8 +83,9 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
                     Intent intent =new Intent(v.getContext(), QuestionActivity.class);
                     intent.putExtra("extra_QuestionId",questionId);
                     intent.putExtra("extraIsMyQuestion",isMyQuestion);
+                    intent.putExtra("extraName",questionItem.getName());
                     v.getContext().startActivity(intent);
-                    Toast.makeText(v.getContext(),"you clicked your question ",Toast.LENGTH_SHORT).show();//测试用，提示
+                 //   Toast.makeText(v.getContext(),"you clicked your question ",Toast.LENGTH_SHORT).show();//测试用，提示
 
                 }else{//点进了别人发布的问题
                     isMyQuestion = false;
@@ -93,8 +94,9 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
                     Intent intent_others =new Intent(v.getContext(), QuestionActivity.class);
                     intent_others.putExtra("extra_QuestionId",questionId);
                     intent_others.putExtra("extraIsMyQuestion",isMyQuestion);
+                    intent_others.putExtra("extraName",questionItem.getName());
                     v.getContext().startActivity(intent_others);
-                    Toast.makeText(v.getContext(),"you clicked others' question ",Toast.LENGTH_SHORT).show();//测试用，
+                 //   Toast.makeText(v.getContext(),"you clicked others' question ",Toast.LENGTH_SHORT).show();//测试用，
                 }
 
                 //这里暂且只是实现某一个问题的详细展示，具体数据有待确定

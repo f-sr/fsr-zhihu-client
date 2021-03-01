@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.client_zhihu_fsr.Activity.AnswerActivity;
+import com.example.client_zhihu_fsr.Activity.MainActivity;
+import com.example.client_zhihu_fsr.Activity.QuestionActivity;
 import com.example.client_zhihu_fsr.R;
 
 
@@ -66,7 +68,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.ViewHolder
                 Log.d("AnswerAdapter","answerID ="+answerID);
 
                 SharedPreferences sp = v.getContext().getSharedPreferences("loginToken",0);
-                int uId = sp.getInt("uid",0);
+                int uId = sp.getInt("uid",10086);
                 Log.d("AnswerAdapter","uid/AnswerUId is    "+uId+"/"+answerItem.getAnswererId());
                 if(uId == answerItem.getAnswererId()) {
 
@@ -79,8 +81,13 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.ViewHolder
                     intent.putExtra("extraAnswerId",answerID);
                     v.getContext().startActivity(intent);
 
-                    Toast.makeText(v.getContext(),"you clicked your answer ", Toast.LENGTH_SHORT).show();//测试用，提示
-                }else {
+                //    Toast.makeText(v.getContext(),"you clicked your answer ", Toast.LENGTH_SHORT).show();//测试用，提示
+                }else  if(uId==10086){
+                    Intent intentMain = new Intent(v.getContext(), MainActivity.class);
+                    v.getContext().startActivity(intentMain);
+                    Toast.makeText(v.getContext(), "请先登录!", Toast.LENGTH_LONG).show();
+
+                } else {
                     //表示点进的是别人的回答(不可编辑)
                     String answer = answerItem.getAnswer();
                     isMine = false;
@@ -90,7 +97,7 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.ViewHolder
                     intent.putExtra("extraAnswerId",answerID);
                     v.getContext().startActivity(intent);
 
-                    Toast.makeText(v.getContext(),"you clicked others answer ",Toast.LENGTH_SHORT).show();//测试用，提示
+                //    Toast.makeText(v.getContext(),"you clicked others answer ",Toast.LENGTH_SHORT).show();//测试用，提示
                 }
 
             }

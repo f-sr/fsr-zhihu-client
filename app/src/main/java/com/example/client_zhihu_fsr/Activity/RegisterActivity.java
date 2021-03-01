@@ -2,7 +2,6 @@ package com.example.client_zhihu_fsr.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,7 +44,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     //初始化控件方法
     private void initView() {
-        editText_PhoneNumber = (EditText) findViewById(R.id.et_PhoneNumber);
+        editText_PhoneNumber = (EditText) findViewById(R.id.etEmail);
         editText_Email = (EditText) findViewById(R.id.et_Email);
         editText_userName = (EditText) findViewById(R.id.et_UserName);
         editText_password = (EditText) findViewById(R.id.et_Password);

@@ -57,7 +57,6 @@ public class MineAnswerActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
                 sendRequestWithAnswerList();
                 //  mQuestionAdapter = new QuestionAdapter(questionItemList);
 
@@ -68,7 +67,7 @@ public class MineAnswerActivity extends AppCompatActivity {
                     public void run() {
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                }, 1000);
+                }, 100);
             }
         });
 
@@ -148,7 +147,8 @@ public class MineAnswerActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(answersListReturnData.getMessage().equals("success")) {
-                    Toast.makeText(MineAnswerActivity.this, "我的回答列表加载成功", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(MineAnswerActivity.this, "我的回答列表加载成功", Toast.LENGTH_LONG).show();
+                    myAnswerAdapter.notifyDataSetChanged();
                 }
 
             }

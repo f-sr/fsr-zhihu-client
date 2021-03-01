@@ -30,15 +30,17 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    private EditText editText_PhoneNumber;
-    private EditText editText_Password;
-    private Button button_register;
-    private Button button_login;
+    private EditText editTextEmail;
+    private EditText editTextPassword;
+    private Button buttonRegister;
+    private Button buttonLogin;
     private CheckBox checkBox_displayPassword;
-    private TextView ResponseText;
+    private TextView textViewPasswordLogin;
+    private Button buttonSkip;
+
     private String originAddress = "http://42.192.88.213:8080/api/user/login";
     private LoginReturnData loginReturnData;
+
 
 
     @Override
@@ -47,26 +49,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initView();
         initEvent();
+        SharedPreferences sp = getSharedPreferences("loginToken", 0);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.clear().commit();
     }
 
 
     //初始化控件方法
     private void initView() {
-        button_register = (Button) findViewById(R.id.bt_Register);
-        button_login = (Button) findViewById(R.id.bt_Login);
-        editText_PhoneNumber = (EditText) findViewById(R.id.et_PhoneNumber);
-        editText_Password = (EditText) findViewById(R.id.et_Password);
-        editText_Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        buttonSkip = (Button) findViewById(R.id.btSkip);
+        buttonRegister = (Button) findViewById(R.id.btRegister);
+        buttonLogin = (Button) findViewById(R.id.btLogin);
+        editTextEmail = (EditText) findViewById(R.id.etEmail);
+        editTextPassword = (EditText) findViewById(R.id.etPassword);
+        editTextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         checkBox_displayPassword = (CheckBox) findViewById(R.id.checkbox);//显示密码
         checkBox_displayPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     //如果选中，显示密码
-                    editText_Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    editTextPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 } else {
                     //否则隐藏密码
-                    editText_Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    editTextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                 }
             }
         });
@@ -76,8 +82,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //注册事件方法
     private void initEvent() {
-        button_register.setOnClickListener(this);
-        button_login.setOnClickListener(this);
+        buttonRegister.setOnClickListener(this);
+        buttonLogin.setOnClickListener(this);
+        buttonSkip.setOnClickListener(this);
     }
 
 
@@ -85,12 +92,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //实现onClick方法
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bt_Login:
+            case R.id.btLogin:
                 sendRequestForLogin();
                 break;
-            case R.id.bt_Register:
+            case R.id.btRegister:
                 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.btSkip:
+                Intent intentSkip = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(intentSkip);
                 break;
             default:
                 break;
@@ -102,10 +113,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        String number = editText_PhoneNumber.getText().toString().trim();
 //        String password = editText_Password.getText().toString().trim();
 //
-          String number = "123456@163.com";
-          String password = "123456";
-//          String number = "2245244149@qq.com";
+//          String number = "123456@163.com";
 //          String password = "123456";
+          String number = "2245244149@qq.com";
+          String password = "123456";
 
 
         if (number.isEmpty()) {
@@ -165,7 +176,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("token","Bearer "+loginReturnData.getToken());
             editor.putInt("uid",loginReturnData.getUid());
+            editor.putBoolean("Signed",true);
             editor.commit();
+
+
        //     String token = sp.getString("token","");
 
             Intent intent =new Intent(MainActivity.this, HomeActivity.class);

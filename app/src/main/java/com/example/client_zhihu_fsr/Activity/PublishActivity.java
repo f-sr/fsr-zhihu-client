@@ -136,19 +136,19 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void run() {
                 if (questionReturnData.getMessage().equals("success")) {
-                    Toast.makeText(getApplicationContext(), "发布成功", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(PublishActivity.this, HomeActivity.class);
+                    Toast.makeText(getApplicationContext(), "发布成功", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
                     setResult(RESULT_OK, intent);
-                    //       finish();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            startActivity(new Intent(PublishActivity.this, HomeActivity.class));
-                        }
-                    }, 500);
+                    finish();
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            startActivity(new Intent(PublishActivity.this, HomeActivity.class));
+//                        }
+//                    }, 500);
 
                 }else {
-                    Toast.makeText(getApplicationContext(), "发布失败，请检查网络错误", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "发布失败，请检查网络错误", Toast.LENGTH_SHORT).show();
                 }
             }
         });

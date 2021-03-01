@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingConstraints">
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#91d5ff"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/btHomePage"
+        ></View>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#91d5ff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        ></View>
+
+
+<!--    <View-->
+<!--        android:layout_width="2dip"-->
+<!--        android:layout_height="66dp"-->
+<!--        android:background="#91d5ff"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        />-->
+
+<!--    <View-->
+<!--        android:layout_width="2dip"-->
+<!--        android:layout_height="66dp"-->
+<!--        android:background="#91d5ff"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toRightOf="@+id/btHomePage"-->
+<!--        app:layout_constraintRight_toLeftOf="@+id/btPublish"-->
+<!--        />-->
+
+<!--    <View-->
+<!--        android:layout_width="2dip"-->
+<!--        android:layout_height="66dp"-->
+<!--        android:background="#91d5ff"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toRightOf="@+id/btPublish"-->
+<!--        app:layout_constraintRight_toLeftOf="@+id/btMine"-->
+<!--        />-->
+
+<!--    <View-->
+<!--        android:layout_width="2dip"-->
+<!--        android:layout_height="66dp"-->
+<!--        android:background="#91d5ff"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        />-->
+
+
+    <Button
+        android:id="@+id/btPublish"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="69dp"
+        android:layout_height="69dp"
+
+
+        android:background="@drawable/publish5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+<!--        app:layout_constraintRight_toLeftOf="@+id/btMine"-->
+<!--        app:layout_constraintLeft_toRightOf="@+id/btHomePage"-->
+
+
+
+    <Button
+        android:id="@+id/btHomePage"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:background="@drawable/home2"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btPublish"
+
+        />
+
+
+    <Button
+        android:id="@+id/btMine"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_weight="1"
+        android:text=""
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:background="@drawable/self2"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/btPublish"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="40dp"
+        style="?android:attr/borderlessButtonStyle"
+        />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

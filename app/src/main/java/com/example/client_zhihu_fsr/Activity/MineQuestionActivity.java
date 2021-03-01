@@ -149,7 +149,8 @@ public class MineQuestionActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(questionListReturnData.getMessage().equals("success")) {
-                    Toast.makeText(MineQuestionActivity.this, "我的提问列表加载成功", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(MineQuestionActivity.this, "我的提问列表加载成功", Toast.LENGTH_SHORT).show();
+                    myQuestionAdapter.notifyDataSetChanged();
                 }
 
             }

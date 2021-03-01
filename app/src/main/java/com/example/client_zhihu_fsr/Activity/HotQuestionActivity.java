@@ -82,7 +82,7 @@ public class HotQuestionActivity extends AppCompatActivity implements View.OnCli
     private void initView() {
         buttonMine = (Button)findViewById(R.id.btMine);
         buttonPublish = (Button)findViewById(R.id.btPublish);
-        mHotQuestionRecyclerView = (RecyclerView) findViewById(R.id.rvHotQuestion);
+        mHotQuestionRecyclerView = (RecyclerView) findViewById(R.id.rvQuestion);
         buttonHomePage = (Button)findViewById(R.id.btHomePage);
         buttonHotQuestion = (Button)findViewById(R.id.btHot);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
@@ -169,7 +169,7 @@ public class HotQuestionActivity extends AppCompatActivity implements View.OnCli
             hotQuestionItemList.add(hotQuestionItem);
         }
 
-        // Handler(homeReturn_data);
+         Handler(questionListReturnData);
     }
 
     private void Handler(QuestionListReturnData questionListReturnData){
@@ -177,7 +177,8 @@ public class HotQuestionActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void run() {
                 if(questionListReturnData.getMessage().equals("success")) {
-                    Toast.makeText(HotQuestionActivity.this, "热门问题列表加载成功", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(HotQuestionActivity.this, "热门问题列表加载成功", Toast.LENGTH_LONG).show();
+                    mHotQuestionAdapter.notifyDataSetChanged();
                 }
 
             }

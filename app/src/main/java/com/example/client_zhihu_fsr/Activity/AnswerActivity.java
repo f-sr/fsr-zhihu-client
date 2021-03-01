@@ -169,7 +169,7 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
                 intent.putExtra("extraAnswer",answer);
                 intent.putExtra("extraAnswerId",answerId);
                 Log.d("AnswerActivity","answerId = "+answerId);
-                startActivity(intent);
+                startActivityForResult(intent,103);
                 break;
 
             default:
@@ -369,6 +369,36 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
             }
         }).start();
 
+    }
+
+
+
+    protected void onActivityResult(int requestCode, int resultCode ,Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 103://编辑回答 返回的结果，OK表示保存，Cancel表示删除
+                if(resultCode == RESULT_OK){
+                    answer = data.getStringExtra("save");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            textViewAnswer.setText(answer);
+                        }
+                    });
+                }else if(resultCode == RESULT_CANCELED){
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    });
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 
 

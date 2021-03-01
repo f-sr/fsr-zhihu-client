@@ -43,13 +43,13 @@ public class AnswersListActivity extends AppCompatActivity {
 
     private String originAddress = "http://42.192.88.213:8080/api/answers/listByQuestion?questionID=";
     private String timeOrderAddress = "&order=create_time";
-    private String supportersOrderAddress = "&order=create_time";
+    private String supportersOrderAddress = "&order=supporters_count";
     private String NewAddress;//最终的目标地址
 
 
     private int questionId;
     private String questionTitle;
-    private int answersCount;
+   // private int answersCount;
     private int viewCount;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -61,30 +61,30 @@ public class AnswersListActivity extends AppCompatActivity {
         initEvent();
         initDataIn();
         sendRequestWithAnswerList();
-
         mAnswerAdapter = new AnswerAdapter(answerItemList);
         mAnswerRecyclerView.setAdapter(mAnswerAdapter);
         mAnswerRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));//划线
 
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
 
-                sendRequestWithAnswerList();
-
-                //                //模拟网络请求需要3000毫秒，请求完成，设置setRefreshing 为false
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 1000);
-
-                mAnswerAdapter.notifyDataSetChanged();
-
-            }
-        });
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//
+//                Log.d("888888888888888","88888888888888888");
+//                sendRequestWithAnswerList();
+//                //  mQuestionAdapter = new QuestionAdapter(questionItemList);
+//
+//                mAnswerAdapter.notifyDataSetChanged();
+////                //模拟网络请求需要3000毫秒，请求完成，设置setRefreshing 为false
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        swipeRefreshLayout.setRefreshing(false);
+//                    }
+//                }, 100);
+//            }
+//        });
 
     }
 
@@ -95,7 +95,7 @@ public class AnswersListActivity extends AppCompatActivity {
         textViewViews = (TextView) findViewById(R.id.tvViews);
         textViewAnswers = (TextView) findViewById(R.id.tvAnswers);
         mAnswerRecyclerView = (RecyclerView) findViewById(R.id.rvAnswersList);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
+    //    swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout111);
     }
 
 
@@ -112,10 +112,10 @@ public class AnswersListActivity extends AppCompatActivity {
     private void initDataIn() {
         //传入问题的ID
         Intent intent = getIntent();
-        questionId = intent.getIntExtra("extraQuestionId",1);
+        questionId = intent.getIntExtra("extraQuestionId",405);
         questionTitle = intent.getStringExtra("extraTitle");
-        viewCount = intent.getIntExtra("extraViewCount",1);
-        answersCount = intent.getIntExtra("extraAnswersCount",1);
+        viewCount = intent.getIntExtra("extraViewCount",407);
+        //answersCount = intent.getIntExtra("extraAnswersCount",406);
 
         StringBuffer Address = new StringBuffer(originAddress);
         Address.append(questionId);
@@ -159,11 +159,12 @@ public class AnswersListActivity extends AppCompatActivity {
 
         answerItemList.clear();
         for(int i = 0; i< answersListReturnData.getTotal(); i++){
-
             AnswerItem answerItem = new AnswerItem(answersList.get(i).getId(), answersList.get(i).getAnswerer().getId(),answersList.get(i).getAnswerer().getName(),R.drawable.head,answersList.get(i).getContent(),answersList.get(i).getSupportersCount(),answersList.get(i).getVoted());//content为后端的回答，等于answer
             answerItemList.add(answerItem);
             Log.d("AnswersListActivity"," answerItemList.toString() "+answerItem.getAnswer());
         }
+
+
 
         runOnUiThread(new Runnable() {
             @Override
@@ -171,7 +172,8 @@ public class AnswersListActivity extends AppCompatActivity {
                 if(answersListReturnData.getMessage().equals("success")) {
                     textViewTitle.setText(questionTitle);
                     textViewViews.setText(viewCount+"浏览");
-                    textViewAnswers.setText(answersCount+"回答");
+                    textViewAnswers.setText(mAnswerAdapter.getItemCount()+"回答");
+                    mAnswerAdapter.notifyDataSetChanged();
                 }
 
             }
@@ -179,6 +181,19 @@ public class AnswersListActivity extends AppCompatActivity {
     }
 
 
+
+    protected void onResume() {
+        super.onResume();
+        //显示信息的界面
+        setContentView(R.layout.activity_answers_list);
+        initView();
+        initEvent();
+        initDataIn();
+        sendRequestWithAnswerList();
+        mAnswerAdapter = new AnswerAdapter(answerItemList);
+        mAnswerRecyclerView.setAdapter(mAnswerAdapter);
+        mAnswerRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));//划线
+    }
 
 
 

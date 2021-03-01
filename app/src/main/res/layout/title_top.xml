@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingConstraints">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/btBottom"
+        app:layout_constraintTop_toBottomOf="@+id/btRecommendation"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="-400dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/btBottom"
+            app:layout_constraintTop_toBottomOf="@+id/btRecommendation"
+            android:background="@color/white"
+            />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
+
+
+
+    <Button
+        android:id="@+id/btRecommendation"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="推荐"
+        android:textSize="35dp"
+        android:background="#e6f7ff"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="@color/blue"
+        android:gravity="center"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btHot"
+        app:layout_constraintHorizontal_weight="1"
+
+        />
+
+
+    <Button
+        android:id="@+id/btHot"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="热榜"
+        android:textSize="35sp"
+        android:textColor="#1890ff"
+        android:background="#e6f7ff"
+        style="?android:attr/borderlessButtonStyle"
+
+        app:layout_constraintLeft_toRightOf="@+id/btRecommendation"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        />
+
+
+    <View
+        android:layout_width="2dip"
+        android:layout_height="50dp"
+        android:background="#69c0ff"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="115dp"
+        app:layout_constraintLeft_toRightOf="@+id/btRecommendation"
+        />
+
+<!--    <View-->
+<!--        android:layout_width="2dip"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="#69c0ff"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        />-->
+
+<!--    <View-->
+<!--        android:layout_width="2dip"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:background="#69c0ff"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        />-->
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#91d5ff"
+        app:layout_constraintTop_toTopOf="parent"
+        ></View>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#91d5ff"
+        app:layout_constraintTop_toBottomOf="@+id/btRecommendation"
+        ></View>
+
+
+
+
+
+
+
+    <Button
+        android:id="@+id/btBottom"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_weight="1"
+        android:text="我的"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/btPublish"
+        app:layout_constraintRight_toRightOf="parent"
+        style="?android:attr/borderlessButtonStyle"
+        android:visibility="invisible"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

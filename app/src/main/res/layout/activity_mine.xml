@@ -7,44 +7,38 @@
     tools:ignore="MissingConstraints" >
 
 
+    <include layout="@layout/title_bottom"/>
 
 
-    <Button
-        android:id="@+id/btHomePage"
+    <TextView
+        android:id="@+id/tvQianMing"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="首页"
-        android:textSize="30sp"
-
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="签名:"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/ibHeadPortrait"
+        android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/btMine"
-        style="?android:attr/borderlessButtonStyle"
+        android:layout_marginLeft="60dp"
+
         />
 
-
-
-    <Button
-        android:id="@+id/btMine"
+    <TextView
+        android:id="@+id/tvDesc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="我的"
-        android:textSize="30sp"
-
-
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/btHomePage"
+        android:text=""
+        android:textSize="19dp"
+        android:textColor="#262626"
+        app:layout_constraintTop_toBottomOf="@+id/ibHeadPortrait"
+        android:layout_marginTop="9dp"
+        app:layout_constraintLeft_toRightOf="@+id/tvQianMing"
+        android:layout_marginLeft="3dp"
         app:layout_constraintRight_toRightOf="parent"
-        style="?android:attr/borderlessButtonStyle"
+        android:maxLines="3"
+
         />
-
-
-
-
 
 
 
@@ -65,9 +59,10 @@
         android:id="@+id/tvUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="用户名"
+        android:text=""
         android:textSize="25dp"
         android:textColor="@color/black"
+        android:textStyle="bold"
 
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -79,10 +74,12 @@
     <Button
         android:id="@+id/btEditMaterials"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="28dp"
         android:text="编辑资料"
         android:textSize="20dp"
-        android:background="@color/royalblue"
+        android:textColor="@color/white"
+        android:background="@color/blue"
+        android:gravity="center"
 
         android:layout_marginRight="40dp"
         app:layout_constraintRight_toRightOf="parent"
@@ -93,16 +90,27 @@
         android:id="@+id/btQuestion"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
         android:text="我的提问"
         android:textSize="25dp"
         android:textColor="@color/black"
-        android:background="@color/steelblue"
+        style="?android:attr/borderlessButtonStyle"
 
-
+        android:layout_marginTop="190dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/btAnswer"
         app:layout_constraintTop_toBottomOf="@+id/btEditMaterials" />
+
+
+    <View
+        android:layout_width="2dip"
+        android:layout_height="25dp"
+        android:background="@color/darkgray"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="203dp"
+        app:layout_constraintTop_toBottomOf="@+id/btEditMaterials"
+        app:layout_constraintLeft_toRightOf="@+id/btQuestion"
+        />
+
 
     <Button
         android:id="@+id/btAnswer"
@@ -110,13 +118,24 @@
         android:layout_height="wrap_content"
         android:text="我的回答"
         android:textSize="25dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="190dp"
         android:textColor="@color/black"
-        android:background="@color/steelblue"
-
+        style="?android:attr/borderlessButtonStyle"
         app:layout_constraintLeft_toRightOf="@+id/btQuestion"
         app:layout_constraintRight_toLeftOf="@+id/btAgree"
         app:layout_constraintTop_toBottomOf="@+id/btEditMaterials"
+        />
+
+
+
+    <View
+        android:layout_width="2dip"
+        android:layout_height="25dp"
+        android:background="@color/darkgray"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="203dp"
+        app:layout_constraintTop_toBottomOf="@+id/btEditMaterials"
+        app:layout_constraintLeft_toRightOf="@+id/btAnswer"
         />
 
     <Button
@@ -125,9 +144,9 @@
         android:layout_height="wrap_content"
         android:text="我的赞"
         android:textSize="25dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="190dp"
         android:textColor="@color/black"
-        android:background="@color/steelblue"
+        style="?android:attr/borderlessButtonStyle"
 
         app:layout_constraintLeft_toRightOf="@+id/btAnswer"
         app:layout_constraintRight_toRightOf="parent"

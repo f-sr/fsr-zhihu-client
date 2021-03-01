@@ -87,10 +87,18 @@ public class EditAnswerActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.btDelete :
                 sendRequestWithDeleteAnswer();
+                Intent intentDelete = new Intent();
+                intentDelete.putExtra("delete","yes");
+                setResult(RESULT_CANCELED,intentDelete);
+                finish();
                 break;
 
             case R.id.btSave :
                 sendRequestWithSaveAnswer();
+                Intent intentSave = new Intent();
+                intentSave.putExtra("save",answer);
+                setResult(RESULT_OK,intentSave);
+                finish();
                 break;
 
             default:
@@ -191,12 +199,12 @@ public class EditAnswerActivity extends AppCompatActivity implements View.OnClic
 //                    Intent intent = new Intent(EditQuestionActivity.this,HomeActivity.class);
 //                    startActivity(intent);
 
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            startActivity(new Intent(EditAnswerActivity.this,AnswersListActivity.class));
-                        }
-                    },100);
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            startActivity(new Intent(EditAnswerActivity.this,AnswersListActivity.class));
+//                        }
+//                    },100);
                  //   finish();
 
 

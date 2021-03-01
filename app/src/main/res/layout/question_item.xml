@@ -11,63 +11,67 @@
 
     <TextView
         android:id="@+id/tv_Title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="30dp"
+        android:textSize="25dp"
         android:textColor="@color/black"
+        android:text=""
+        android:textStyle="bold"
 
-        android:text="震惊66666666666"
-
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
 
 
     <ImageView
         android:id="@+id/im_head"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-
-
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:src="@drawable/head"
-
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
 
         app:layout_constraintRight_toLeftOf="@+id/tv_name"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_Title"
+
         />
 
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="李四"
-        android:textColor="@color/black"
-
-        android:layout_marginLeft="15dp"
+        android:textSize="17dp"
+        android:text=""
+        android:textColor="@color/gray"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="5dp"
         app:layout_constraintLeft_toRightOf="@+id/im_head"
         app:layout_constraintTop_toBottomOf="@+id/tv_Title"
+
+
         />
 
-<!--        app:layout_constraintCircle="@+id/im_head"-->
-<!--        app:layout_constraintCircleAngle="90"-->
-<!--        app:layout_constraintCircleRadius="40dp"-->
 
 
     <TextView
         android:id="@+id/tv_describe"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:text="babbababbababbabababbabababbabbabab"
+        android:text=""
         android:textColor="@color/dimgray"
+        android:minLines="2"
+        android:maxLines="2"
 
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/im_head"
         />
 
@@ -76,12 +80,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="10dp"
-        android:text="000 浏览"
-
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp"
+        android:text="000"
+        android:textColor="@color/darkgray"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_describe"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
     <TextView
@@ -89,12 +95,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="10dp"
-        android:text="000 回答"
-
-        android:layout_marginTop="10dp"
+        android:text="000"
+        android:textColor="@color/darkgray"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintLeft_toRightOf="@+id/tvViews"
         app:layout_constraintTop_toBottomOf="@+id/tv_describe"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
 
